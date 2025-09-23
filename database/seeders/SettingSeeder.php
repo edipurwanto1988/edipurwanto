@@ -13,7 +13,7 @@ class SettingSeeder extends Seeder
     public function run(): void
     {
         Setting::query()->firstOrCreate([], [
-            'homepage_description' => 'Blog personal berisi ide, catatan perjalanan, dan referensi yang sedang dipelajari oleh Edi Purwanto.',
+            'homepage_description' => 'Blog personal berisi ide, catatan perjalanan, dan referensi.',
             'google_console_code' => null,
             'homepage_image_path' => null,
         ]);

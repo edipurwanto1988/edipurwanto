@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Blog Edi Purwanto</title>
     @php($settings = $settings ?? null)
-    <meta name="description" content="{{ $settings?->homepage_description ?? 'Blog personal Edi Purwanto berisi ide, catatan perjalanan, dan referensi.' }}">
+    <meta name="description" content="{{ $settings?->homepage_description ?? 'Blog personal berisi ide, catatan perjalanan, dan referensi.' }}">
     @if ($favicon = $settings?->favicon_url)
         <link rel="icon" href="{{ $favicon }}">
     @endif
