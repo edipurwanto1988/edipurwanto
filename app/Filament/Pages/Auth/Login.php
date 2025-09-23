@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages\Auth;
 
+use App\Services\MD5AuthService;
 use Filament\Auth\Http\Responses\Contracts\LoginResponse;
 use Filament\Auth\Pages\Login as BaseLogin;
 use Filament\Forms\Components\TextInput;
@@ -88,7 +89,12 @@ class Login extends BaseLogin
         }
 
         try {
-            return parent::authenticate();
+            // Use custom MD5 authentication service
+            $authService = new MD5AuthService();
+            $user = $authService->authenticate($data['email'], $data['password']);
+            $authService->login($user);
+            
+            return app(LoginResponse::class);
         } catch (ValidationException $exception) {
             $this->generateCaptcha();
 
