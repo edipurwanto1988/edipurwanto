@@ -16,6 +16,10 @@
 /public/build
 /public/hot
 /public/storage
+
+# Storage directories for user-uploaded content
+/storage/app/public/*
+!/storage/app/public/.gitignore
 /storage/*.key
 /storage/pail
 /vendor
