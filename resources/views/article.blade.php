@@ -46,7 +46,7 @@
 <body class="bg-background-light font-sans text-zinc-900 antialiased dark:bg-background-dark dark:text-zinc-200">
 <div class="flex min-h-screen w-full flex-col">
     <header class="sticky top-0 z-10 w-full border-b border-zinc-200/50 bg-background-light/80 backdrop-blur-sm dark:border-zinc-800/50 dark:bg-background-dark/80">
-        <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+        <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
             <div class="flex items-center gap-4">
                 <a href="{{ url('/') }}" class="flex items-center gap-2.5 text-zinc-900 dark:text-zinc-100">
                     <svg class="h-6 w-6 text-primary" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
@@ -73,6 +73,21 @@
                     <a href="{{ url('/#contact') }}" class="text-sm font-medium text-zinc-600 transition-colors hover:text-primary dark:text-zinc-400 dark:hover:text-primary">Kontak</a>
                 @endforelse
             </nav>
+            <div class="flex items-center gap-4">
+                <form action="{{ route('search') }}" method="GET" class="hidden md:flex items-center">
+                    <div class="relative">
+                        <input type="text"
+                               name="q"
+                               placeholder="Cari artikel..."
+                               class="w-64 rounded-lg border border-zinc-300 bg-white px-4 py-2 pr-10 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-zinc-700 dark:bg-background-dark dark:text-zinc-100">
+                        <button type="submit" class="absolute right-2 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-primary dark:text-zinc-400">
+                            <span class="material-symbols-outlined text-lg">search</span>
+                        </button>
+                    </div>
+                </form>
+                @php($profileImage = $settings?->homepage_image_url ?? null)
+                <div class="h-10 w-10 rounded-full bg-cover bg-center" style="background-image: url('{{ $profileImage ?? asset('images/avatar-placeholder.svg') }}');"></div>
+            </div>
         </div>
     </header>
 
@@ -141,7 +156,7 @@
     </main>
 
     <footer class="border-t border-zinc-200/70 bg-background-light py-8 text-center text-sm text-zinc-500 dark:border-zinc-800/70 dark:bg-background-dark dark:text-zinc-500">
-        © {{ date('Y') }} Blog Edi Purwanto
+        © {{ date('Y') }} Blog Edi Purwanto | <a href="https://jasawebpekanbaru.com" target="_blank" class="text-blue-400 hover:text-blue-300 transition">Jasa Pembuatan Website Pekanbaru</a>
     </footer>
 </div>
 </body>

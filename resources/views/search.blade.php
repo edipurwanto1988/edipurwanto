@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Blog Edi Purwanto</title>
+    <title>Hasil Pencarian: "{{ $query }}" - Blog Edi Purwanto</title>
     @php($settings = $settings ?? null)
-    <meta name="description" content="{{ $settings?->homepage_description ?? 'Blog personal berisi ide, catatan perjalanan, dan referensi.' }}">
+    <meta name="description" content="Hasil pencarian untuk '{{ $query }}' di Blog Edi Purwanto">
     @if ($favicon = $settings?->favicon_url)
         <link rel="icon" href="{{ $favicon }}">
     @endif
@@ -14,7 +14,7 @@
     @endif
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Newsreader:wght@400;500;700;800&amp;family=Noto+Sans:wght@400;500;700;900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?display=swap&family=Newsreader:wght@400;500;700;800&family=Noto+Sans:wght@400;500;700;900" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script id="tailwind-config">
@@ -61,38 +61,32 @@
                         {{ $item['label'] }}
                     </a>
                 @empty
-                    <a href="{{ url('/') }}" class="text-sm font-medium text-primary">Home</a>
+                    <a href="{{ url('/') }}" class="text-sm font-medium text-zinc-600 transition-colors hover:text-primary dark:text-zinc-400 dark:hover:text-primary">Home</a>
                     <a href="{{ url('/#articles') }}" class="text-sm font-medium text-zinc-600 transition-colors hover:text-primary dark:text-zinc-400 dark:hover:text-primary">Articles</a>
-                    <a href="{{ route('categories.index') }}" class="text-sm font-medium text-zinc-600 transition-colors hover:text-primary dark:text-zinc-400 dark:hover-text-primary">Kategori</a>
+                    <a href="{{ route('categories.index') }}" class="text-sm font-medium text-primary">Kategori</a>
                     <a href="{{ url('/#contact') }}" class="text-sm font-medium text-zinc-600 transition-colors hover:text-primary dark:text-zinc-400 dark:hover:text-primary">Kontak</a>
                 @endforelse
             </nav>
-            <div class="flex items-center gap-4">
-                <form action="{{ route('search') }}" method="GET" class="hidden md:flex items-center">
-                    <div class="relative">
-                        <input type="text"
-                               name="q"
-                               placeholder="Cari artikel..."
-                               class="w-64 rounded-lg border border-zinc-300 bg-white px-4 py-2 pr-10 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-zinc-700 dark:bg-background-dark dark:text-zinc-100">
-                        <button type="submit" class="absolute right-2 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-primary dark:text-zinc-400">
-                            <span class="material-symbols-outlined text-lg">search</span>
-                        </button>
-                    </div>
-                </form>
-                @php($profileImage = $settings?->homepage_image_url ?? null)
-                <div class="h-10 w-10 rounded-full bg-cover bg-center" style="background-image: url('{{ $profileImage ?? asset('images/avatar-placeholder.svg') }}');"></div>
-            </div>
         </div>
     </header>
 
     <main class="flex-1">
         <section class="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-            @if ($settings?->homepage_description)
-                <div class="mb-10 rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary dark:bg-primary/20">
-                    {{ $settings->homepage_description }}
-                </div>
-            @endif
-            <h1 class="mb-8 text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-4xl">Artikel Terbaru</h1>
+            <div class="mb-8">
+                <a href="{{ url('/') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline">
+                    <span class="material-symbols-outlined text-base">arrow_back</span>
+                    Kembali ke Beranda
+                </a>
+            </div>
+
+            <div class="mb-10">
+                <h1 class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-4xl">
+                    Hasil Pencarian
+                </h1>
+                <p class="mt-2 text-lg text-zinc-600 dark:text-zinc-400">
+                    Menampilkan hasil untuk: <span class="font-semibold text-primary">"{{ $query }}"</span>
+                </p>
+            </div>
 
             <div class="space-y-10">
                 @forelse ($articles as $article)
@@ -121,36 +115,19 @@
                     </article>
                 @empty
                     <div class="rounded-lg border border-dashed border-zinc-300 p-8 text-center text-zinc-500 dark:border-zinc-700 dark:text-zinc-400">
-                        Belum ada artikel yang diterbitkan.
+                        <span class="material-symbols-outlined text-4xl mb-4 block">search_off</span>
+                        <h3 class="text-lg font-semibold mb-2">Tidak ada hasil ditemukan</h3>
+                        <p class="text-sm">Tidak ada artikel yang cocok dengan pencarian "{{ $query }}". Coba gunakan kata kunci lain.</p>
+                        <div class="mt-6">
+                            <a href="{{ url('/') }}" class="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-primary/90">
+                                Kembali ke Beranda
+                            </a>
+                        </div>
                     </div>
                 @endforelse
             </div>
 
             @includeWhen($articles instanceof \Illuminate\Pagination\AbstractPaginator, 'components.pagination', ['paginator' => $articles])
-        </section>
-
-        <section id="contact" class="border-t border-zinc-200/60 bg-white/80 py-12 dark:border-zinc-800/60 dark:bg-background-dark/80">
-            <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-                <h2 class="text-2xl font-bold text-zinc-900 dark:text-zinc-100">Kontak</h2>
-                <div class="mt-5 rounded-xl border border-zinc-200/70 bg-white p-6 shadow-sm dark:border-zinc-800/70 dark:bg-background-dark">
-                    <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-                        <div class="max-w-xl text-sm text-zinc-600 dark:text-zinc-400">
-                            <p>Saya senang mendengar cerita, ide kolaborasi, maupun pertanyaan seputar tulisan di sini. Balasan biasanya saya kirim dalam 1x24 jam pada hari kerja.</p>
-                        </div>
-                        <div class="flex flex-wrap gap-3">
-                            <a href="mailto:admin@edipurwanto.com" class="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-primary/90">
-                                ✉️ Kirim Email
-                            </a>
-                            <a href="https://www.linkedin.com/in/edipurwantoofficial/" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-600 transition hover:border-primary hover:text-primary dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-primary dark:hover:text-primary">
-                                LinkedIn
-                            </a>
-                            <a href="https://www.instagram.com" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-600 transition hover:border-primary hover:text-primary dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-primary dark:hover:text-primary">
-                                Instagram
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </section>
     </main>
 

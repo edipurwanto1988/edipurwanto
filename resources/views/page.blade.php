@@ -158,7 +158,7 @@
 </main>
 
 <footer>
-    © {{ date('Y') }} Blog Edi Purwanto
+    © {{ date('Y') }} Blog Edi Purwanto | <a href="https://jasawebpekanbaru.com" target="_blank" class="text-blue-400 hover:text-blue-300 transition">Jasa Pembuatan Website Pekanbaru</a>
 </footer>
 </body>
 </html>

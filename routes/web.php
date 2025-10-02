@@ -114,3 +114,32 @@ Route::get('/sitemap.xml', function () {
         ->view('sitemap', compact('articles', 'pages', 'baseUrl'))
         ->header('Content-Type', 'application/xml');
 });
+
+Route::get('/search', function () {
+    $query = request('q');
+    
+    if (!$query) {
+        return redirect('/');
+    }
+    
+    $articles = Article::query()
+        ->with('category')
+        ->where(function ($q) use ($query) {
+            $q->where('title', 'like', "%{$query}%")
+              ->orWhere('content', 'like', "%{$query}%")
+              ->orWhere('excerpt', 'like', "%{$query}%");
+        })
+        ->orderByDesc('published_at')
+        ->orderByDesc('created_at')
+        ->paginate(10);
+
+    $settings = Setting::query()->first();
+    $menuItems = optional(Menu::query()->where('slug', 'primary')->first())->resolved_items;
+
+    return view('search', [
+        'articles' => $articles,
+        'query' => $query,
+        'settings' => $settings,
+        'menuItems' => $menuItems,
+    ]);
+})->name('search');
