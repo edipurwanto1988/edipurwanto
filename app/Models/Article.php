@@ -12,31 +12,40 @@ class Article extends Model
 {
     use HasFactory;
 
+    public $timestamps = false; // Disable automatic timestamps since we're using custom column names
+
+    protected $keyType = 'string';
+    public $incrementing = false;
+
     protected $fillable = [
+        'id',
         'slug',
         'title',
-        'category_id',
-        'thumbnail_url',
-        'thumbnail_path',
-        'thumbnail_thumb_path',
+        'categoryId', // Changed from category_id
+        'authorId', // Changed from author_id
+        'image_url',
         'excerpt',
         'content',
-        'published_at',
+        'publishedAt', // Changed from published_at
+        'createdAt',
+        'updatedAt',
     ];
 
     protected $casts = [
-        'published_at' => 'datetime',
+        'publishedAt' => 'datetime', // Changed from published_at
+        'createdAt' => 'datetime', // Changed from created_at
+        'updatedAt' => 'datetime', // Changed from updated_at
     ];
 
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'categoryId');
     }
 
-    public function getThumbnailUrlAttribute(?string $value): ?string
+    public function getImageUrlAttribute(): ?string
     {
-        $this->ensureThumbnailGenerated();
-
+        $value = $this->attributes['image_url'] ?? null;
+        
         if ($value && Str::startsWith($value, ['http://', 'https://'])) {
             return $value;
         }
@@ -45,73 +54,22 @@ class Article extends Model
             return Storage::disk('public')->url($value);
         }
 
-        if ($this->thumbnail_path) {
-            return Storage::disk('public')->url($this->thumbnail_path);
-        }
-
         return null;
+    }
+
+    // Keep backward compatibility methods
+    public function getThumbnailUrlAttribute(): ?string
+    {
+        return $this->image_url;
     }
 
     public function getThumbnailThumbUrlAttribute(): ?string
     {
-        $this->ensureThumbnailGenerated();
-
-        $path = $this->thumbnail_thumb_path ?? $this->attributes['thumbnail_url'] ?? null;
-
-        if ($path && Str::startsWith($path, ['http://', 'https://'])) {
-            return $path;
-        }
-
-        if ($path) {
-            return Storage::disk('public')->url($path);
-        }
-
-        if ($this->thumbnail_path) {
-            return Storage::disk('public')->url($this->thumbnail_path);
-        }
-
-        return null;
+        return $this->image_url;
     }
 
     public function getThumbnailOriginalUrlAttribute(): ?string
     {
-        $this->ensureThumbnailGenerated();
-
-        if ($this->thumbnail_path) {
-            return Storage::disk('public')->url($this->thumbnail_path);
-        }
-
-        return $this->thumbnail_url;
-    }
-
-    protected function ensureThumbnailGenerated(): void
-    {
-        if ($this->thumbnail_thumb_path || ! $this->thumbnail_path) {
-            return;
-        }
-
-        $disk = Storage::disk('public');
-
-        if (! $disk->exists($this->thumbnail_path)) {
-            return;
-        }
-
-        $extension = pathinfo($this->thumbnail_path, PATHINFO_EXTENSION) ?: 'jpg';
-        $thumbPath = Str::of($this->thumbnail_path)
-            ->beforeLast('.')
-            ->append('-thumb.')
-            ->append($extension)
-            ->value();
-
-        if (! $disk->exists($thumbPath)) {
-            $image = Image::read($disk->path($this->thumbnail_path));
-            $image->cover(256, 176);
-            $image->save($disk->path($thumbPath));
-        }
-
-        $this->forceFill([
-            'thumbnail_thumb_path' => $thumbPath,
-            'thumbnail_url' => $this->thumbnail_path,
-        ])->saveQuietly();
+        return $this->image_url;
     }
 }

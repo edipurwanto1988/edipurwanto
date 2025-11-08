@@ -13,10 +13,16 @@ class Menu extends Model
         'name',
         'slug',
         'items',
+        'url',
+        'page_id',
+        'target',
+        'order',
+        'is_active',
     ];
 
     protected $casts = [
         'items' => 'array',
+        'is_active' => 'boolean',
     ];
 
     public function getResolvedItemsAttribute(): Collection
@@ -72,6 +78,14 @@ class Menu extends Model
 
             return null;
         })->filter();
+    }
+    
+    /**
+     * Get the page associated with the menu item.
+     */
+    public function page()
+    {
+        return $this->belongsTo(Page::class);
     }
 }
  

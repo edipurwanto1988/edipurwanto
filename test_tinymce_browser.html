@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TinyMCE Browser Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .status {
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .warning { background: #fff3cd; color: #856404; }
+        #editor-container {
+            margin-top: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            margin: 10px 0;
+        }
+        .log {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>TinyMCE Browser Loading Test</h1>
+    
+    <div class="test-section">
+        <h2>1. CDN Loading Test</h2>
+        <div id="cdn-status">Testing...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. TinyMCE Initialization Test</h2>
+        <div id="tinymce-status">Waiting for CDN...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. Code Sample Plugin Test</h2>
+        <div id="codesample-status">Waiting for TinyMCE...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>4. Console Log</h2>
+        <div id="console-log" class="log"></div>
+    </div>
+    
+    <div id="editor-container">
+        <h2>5. Editor Test</h2>
+        <form>
+            <textarea id="content" name="content">
+                <p>This is a test content with code sample:</p>
+                <pre><code class="language-javascript">
+function testFunction() {
+    console.log('Hello TinyMCE!');
+    return true;
+}
+                </code></pre>
+            </textarea>
+        </form>
+    </div>
+
+    <!-- Override console.log to capture in our log -->
+    <script>
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+        
+        function addToLog(type, ...args) {
+            const logDiv = document.getElementById('console-log');
+            const timestamp = new Date().toLocaleTimeString();
+            const message = args.map(arg => 
+                typeof arg === 'object' ? JSON.stringify(arg) : String(arg)
+            ).join(' ');
+            
+            logDiv.innerHTML += `<div>[${timestamp}] ${type.toUpperCase()}: ${message}</div>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+            
+            // Call original console method
+            if (type === 'error') originalError(...args);
+            else if (type === 'warn') originalWarn(...args);
+            else originalLog(...args);
+        }
+        
+        console.log = (...args) => addToLog('log', ...args);
+        console.error = (...args) => addToLog('error', ...args);
+        console.warn = (...args) => addToLog('warn', ...args);
+    </script>
+
+    <!-- Test CDN Loading -->
+    <script>
+        function updateStatus(elementId, status, message) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<span class="status ${status}">${message}</span>`;
+        }
+        
+        // Test 1: CDN Loading
+        console.log('[Test] Starting CDN loading test...');
+        const script = document.createElement('script');
+        script.src = 'https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js';
+        script.onload = function() {
+            console.log('[CDN] TinyMCE CDN loaded successfully');
+            updateStatus('cdn-status', 'success', '✅ TinyMCE CDN loaded successfully');
+            
+            // Test 2: TinyMCE Initialization
+            if (typeof tinymce !== 'undefined') {
+                console.log('[TinyMCE] TinyMCE object available');
+                updateStatus('tinymce-status', 'success', '✅ TinyMCE object available');
+                
+                // Initialize TinyMCE
+                tinymce.init({
+                    selector: '#content',
+                    height: 300,
+                    plugins: [
+                        'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                        'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                        'insertdatetime', 'media', 'table', 'help', 'wordcount', 'codesample'
+                    ],
+                    toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link | codesample | fullscreen | help',
+                    codesample_languages: [
+                        {text: 'HTML/XML', value: 'markup'},
+                        {text: 'JavaScript', value: 'javascript'},
+                        {text: 'CSS', value: 'css'},
+                        {text: 'PHP', value: 'php'},
+                        {text: 'Python', value: 'python'},
+                        {text: 'Java', value: 'java'},
+                        {text: 'C', value: 'c'},
+                        {text: 'C++', value: 'cpp'},
+                        {text: 'C#', value: 'csharp'},
+                        {text: 'SQL', value: 'sql'},
+                        {text: 'Bash', value: 'bash'},
+                        {text: 'JSON', value: 'json'},
+                        {text: 'YAML', value: 'yaml'},
+                        {text: 'Markdown', value: 'markdown'}
+                    ],
+                    setup: function(editor) {
+                        console.log('[TinyMCE] Editor initialized:', editor.id);
+                        updateStatus('tinymce-status', 'success', '✅ TinyMCE editor initialized successfully');
+                        
+                        // Test 3: Code Sample Plugin
+                        editor.on('init', function() {
+                            console.log('[TinyMCE] Editor ready');
+                            
+                            // Check if codesample plugin is available
+                            if (editor.ui.registry.getAll().buttons.codesample) {
+                                console.log('[CodeSample] Code sample plugin is available');
+                                updateStatus('codesample-status', 'success', '✅ Code sample plugin working');
+                            } else {
+                                console.error('[CodeSample] Code sample plugin not found');
+                                updateStatus('codesample-status', 'error', '❌ Code sample plugin not found');
+                            }
+                        });
+                        
+                        editor.on('change', function() {
+                            const content = editor.getContent();
+                            const textarea = document.getElementById('content');
+                            if (textarea) {
+                                textarea.value = content;
+                            }
+                        });
+                    }
+                });
+                
+                console.log('[TinyMCE] TinyMCE initialization started');
+            } else {
+                console.error('[TinyMCE] TinyMCE object not available after CDN load');
+                updateStatus('tinymce-status', 'error', '❌ TinyMCE object not available');
+            }
+        };
+        
+        script.onerror = function() {
+            console.error('[CDN] Failed to load TinyMCE CDN');
+            updateStatus('cdn-status', 'error', '❌ Failed to load TinyMCE CDN');
+            updateStatus('tinymce-status', 'error', '❌ Cannot test TinyMCE - CDN failed');
+            updateStatus('codesample-status', 'error', '❌ Cannot test Code Sample - CDN failed');
+        };
+        
+        // Add timeout for CDN loading
+        setTimeout(() => {
+            const statusElement = document.getElementById('cdn-status');
+            if (statusElement.textContent === 'Testing...') {
+                console.error('[CDN] CDN loading timeout');
+                updateStatus('cdn-status', 'warning', '⏰ CDN loading timeout (may be slow network)');
+            }
+        }, 10000);
+        
+        document.head.appendChild(script);
+        console.log('[Test] CDN script appended to head');
+    </script>
+</body>
+</html>

@@ -22,18 +22,14 @@ class RegenerateArticleThumbnails extends Command
         $deleted = 0;
 
         Article::query()
-            ->whereNotNull('thumbnail_path')
+            ->whereNotNull('image_url')
             ->orderBy('id')
             ->chunkById($chunkSize, function ($articles) use (&$processed, &$deleted) {
                 foreach ($articles as $article) {
                     $processed++;
 
-                    if ($article->thumbnail_thumb_path && Storage::disk('public')->exists($article->thumbnail_thumb_path)) {
-                        Storage::disk('public')->delete($article->thumbnail_thumb_path);
-                        $deleted++;
-                    }
-
-                    $article->forceFill(['thumbnail_thumb_path' => null])->save();
+                    // Since we're now using image_url only, we don't need to delete thumbnail_thumb_path
+                    // This command can be simplified or repurposed for image_url processing
 
                     // Touch accessor to trigger regeneration via ensureThumbnailGenerated().
                     $article->refresh();

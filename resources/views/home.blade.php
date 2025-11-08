@@ -1,162 +1,43 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Blog Edi Purwanto</title>
-    @php($settings = $settings ?? null)
-    <meta name="description" content="{{ $settings?->homepage_description ?? 'Blog personal berisi ide, catatan perjalanan, dan referensi.' }}">
-    @if ($favicon = $settings?->favicon_url)
-        <link rel="icon" href="{{ $favicon }}">
-    @endif
-    @if (! empty($settings?->google_console_code))
-        <meta name="google-site-verification" content="{{ $settings->google_console_code }}">
-    @endif
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Newsreader:wght@400;500;700;800&amp;family=Noto+Sans:wght@400;500;700;900" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#1193d4',
-                        'background-light': '#f6f7f8',
-                        'background-dark': '#101c22',
-                    },
-                    fontFamily: {
-                        display: ['Newsreader', 'serif'],
-                        sans: ['Noto Sans', 'ui-sans-serif', 'system-ui'],
-                    },
-                    borderRadius: { DEFAULT: '0.125rem', lg: '0.25rem', xl: '0.5rem', full: '0.75rem' },
-                },
-            },
-        };
-    </script>
-</head>
-<body class="bg-background-light font-sans text-zinc-900 antialiased dark:bg-background-dark dark:text-zinc-200">
-<div class="flex min-h-screen w-full flex-col">
-    <header class="sticky top-0 z-10 w-full border-b border-zinc-200/50 bg-background-light/80 backdrop-blur-sm dark:border-zinc-800/50 dark:bg-background-dark/80">
-        <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-            <div class="flex items-center gap-4">
-                <a href="{{ url('/') }}" class="flex items-center gap-2.5 text-zinc-900 dark:text-zinc-100">
-                    <svg class="h-6 w-6 text-primary" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z" fill="currentColor" />
-                    </svg>
-                    <span class="text-xl font-bold">Blog Edi Purwanto</span>
-                </a>
-            </div>
-            <nav class="hidden items-center gap-6 md:flex">
-                @forelse(($menuItems ?? collect()) as $item)
-                    <a href="{{ $item['url'] }}"
-                       @class([
-                           'text-sm font-medium transition-colors',
-                           'text-primary' => request()->fullUrlIs($item['url']),
-                           'text-zinc-600 hover:text-primary dark:text-zinc-400 dark:hover:text-primary' => ! request()->fullUrlIs($item['url']),
-                       ])
-                       @if(!empty($item['open_in_new_tab'])) target="_blank" rel="noopener" @endif>
-                        {{ $item['label'] }}
-                    </a>
-                @empty
-                    <a href="{{ url('/') }}" class="text-sm font-medium text-primary">Home</a>
-                    <a href="{{ url('/#articles') }}" class="text-sm font-medium text-zinc-600 transition-colors hover:text-primary dark:text-zinc-400 dark:hover:text-primary">Articles</a>
-                    <a href="{{ route('categories.index') }}" class="text-sm font-medium text-zinc-600 transition-colors hover:text-primary dark:text-zinc-400 dark:hover-text-primary">Kategori</a>
-                    <a href="{{ url('/#contact') }}" class="text-sm font-medium text-zinc-600 transition-colors hover:text-primary dark:text-zinc-400 dark:hover:text-primary">Kontak</a>
-                @endforelse
-            </nav>
-            <div class="flex items-center gap-4">
-                <form action="{{ route('search') }}" method="GET" class="hidden md:flex items-center">
-                    <div class="relative">
-                        <input type="text"
-                               name="q"
-                               placeholder="Cari artikel..."
-                               class="w-64 rounded-lg border border-zinc-300 bg-white px-4 py-2 pr-10 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-zinc-700 dark:bg-background-dark dark:text-zinc-100">
-                        <button type="submit" class="absolute right-2 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-primary dark:text-zinc-400">
-                            <span class="material-symbols-outlined text-lg">search</span>
-                        </button>
-                    </div>
-                </form>
-                @php($profileImage = $settings?->homepage_image_url ?? null)
-                <div class="h-10 w-10 rounded-full bg-cover bg-center" style="background-image: url('{{ $profileImage ?? asset('images/avatar-placeholder.svg') }}');"></div>
-            </div>
-        </div>
-    </header>
+@extends('layouts.app')
 
-    <main class="flex-1">
-        <section class="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-            @if ($settings?->homepage_description)
-                <div class="mb-10 rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary dark:bg-primary/20">
-                    {{ $settings->homepage_description }}
-                </div>
-            @endif
-            <h1 class="mb-8 text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-4xl">Artikel Terbaru</h1>
+@section('content')
+<div class="flex p-4 md:p-8 @container my-8">
+<div class="flex w-full flex-col gap-6 @[520px]:flex-row @[520px]:justify-between @[520px]:items-center">
+<div class="flex flex-col @[520px]:flex-row gap-6 items-center @[520px]:items-start text-center @[520px]:text-left">
+<img class="rounded-full h-32 w-32 object-cover border-2 border-primary/40" data-alt="Professional headshot of Edi Purwanto" src="{{ asset('images/edipurwanto.jpeg') }}"/>
+<div class="flex flex-col justify-center space-y-2">
+<p class="text-text-dark text-3xl font-bold leading-tight tracking-[-0.015em]">Edi Purwanto</p>
+<p class="text-primary text-lg font-medium leading-normal">🎓 Information Systems Lecturer & System Analyst</p>
+<p class="text-text-light text-base font-normal leading-relaxed max-w-full">
+                                            A dedicated lecturer in Information Systems with a deep passion for teaching, technology, and innovation. Beyond academia, I work as a System Analyst at a software house, where I bridge the gap between business needs and technical solutions.
 
-            <div class="space-y-10">
-                @forelse ($articles as $article)
-                    <article class="group grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
-                        <div class="overflow-hidden rounded-lg md:col-span-1">
-                            <div class="h-full w-full bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
-                                 style="background-image: url('{{ $article->thumbnail_thumb_url ?? $article->thumbnail_url ?? asset('images/article-placeholder.jpg') }}'); aspect-ratio: 16/9;"></div>
-                        </div>
-                        <div class="flex flex-col md:col-span-2">
-                            <h2 class="text-xl font-bold text-zinc-900 transition-colors group-hover:text-primary dark:text-zinc-100 dark:group-hover:text-primary">
-                                <a href="{{ route('articles.show', $article->slug) }}">{{ $article->title }}</a>
-                            </h2>
-                            <div class="mt-3 flex flex-wrap items-center gap-2 text-xs font-medium text-zinc-500 dark:text-zinc-500">
-                                <span>{{ optional($article->published_at)->translatedFormat('d M Y') ?? $article->created_at->translatedFormat('d M Y') }}</span>
-                                @if ($article->category)
-                                    <span class="text-zinc-400">·</span>
-                                    <a href="{{ route('categories.show', $article->category->slug) }}" class="text-primary hover:underline">
-                                        {{ $article->category->name }}
-                                    </a>
-                                @endif
-                            </div>
-                            @if ($article->excerpt)
-                                <p class="mt-3 text-sm text-zinc-600 dark:text-zinc-400">{{ $article->excerpt }}</p>
-                            @endif
-                        </div>
-                    </article>
-                @empty
-                    <div class="rounded-lg border border-dashed border-zinc-300 p-8 text-center text-zinc-500 dark:border-zinc-700 dark:text-zinc-400">
-                        Belum ada artikel yang diterbitkan.
-                    </div>
-                @endforelse
-            </div>
-
-            @includeWhen($articles instanceof \Illuminate\Pagination\AbstractPaginator, 'components.pagination', ['paginator' => $articles])
-        </section>
-
-        <section id="contact" class="border-t border-zinc-200/60 bg-white/80 py-12 dark:border-zinc-800/60 dark:bg-background-dark/80">
-            <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-                <h2 class="text-2xl font-bold text-zinc-900 dark:text-zinc-100">Kontak</h2>
-                <div class="mt-5 rounded-xl border border-zinc-200/70 bg-white p-6 shadow-sm dark:border-zinc-800/70 dark:bg-background-dark">
-                    <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-                        <div class="max-w-xl text-sm text-zinc-600 dark:text-zinc-400">
-                            <p>Saya senang mendengar cerita, ide kolaborasi, maupun pertanyaan seputar tulisan di sini. Balasan biasanya saya kirim dalam 1x24 jam pada hari kerja.</p>
-                        </div>
-                        <div class="flex flex-wrap gap-3">
-                            <a href="mailto:admin@edipurwanto.com" class="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-primary/90">
-                                ✉️ Kirim Email
-                            </a>
-                            <a href="https://www.linkedin.com/in/edipurwantoofficial/" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-600 transition hover:border-primary hover:text-primary dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-primary dark:hover:text-primary">
-                                LinkedIn
-                            </a>
-                            <a href="https://www.instagram.com" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-600 transition hover:border-primary hover:text-primary dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-primary dark:hover:text-primary">
-                                Instagram
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="border-t border-zinc-200/70 bg-background-light py-8 text-center text-sm text-zinc-500 dark:border-zinc-800/70 dark:bg-background-dark dark:text-zinc-500">
-        © {{ date('Y') }} Blog Edi Purwanto | <a href="https://jasawebpekanbaru.com" target="_blank" class="text-blue-400 hover:text-blue-300 transition">Jasa Pembuatan Website Pekanbaru</a>
-    </footer>
+This blog is where I share my experiences, research insights, and practical approaches to system design, data-driven decision making, and software development — combining the academic perspective with real-world industry practice.
+                                        </p>
 </div>
-</body>
-</html>
+</div>
+</div>
+</div>
+<h2 class="text-text-dark text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Latest Articles</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
+@forelse ($articles as $article)
+<div class="flex flex-col gap-3 pb-3 bg-white rounded-xl overflow-hidden border border-gray-200/80 hover:shadow-lg transition-shadow duration-300">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover" data-alt="Article thumbnail" style="background-image: url('{{ $article->thumbnail_thumb_url ?? $article->thumbnail ?? asset('images/article-placeholder.jpg') }}');"></div>
+<div class="p-4 flex flex-col flex-grow">
+<p class="text-text-dark text-lg font-medium leading-normal">
+<a href="{{ route('articles.show', $article->slug) }}" class="hover:text-primary transition-colors">{{ $article->title }}</a>
+</p>
+<p class="text-text-light text-sm font-normal leading-normal mt-1 flex-grow">
+{{ Str::limit(strip_tags($article->excerpt ?? $article->content ?? ''), 100) }}
+                                    </p>
+<p class="text-gray-400 text-xs font-normal leading-normal mt-3">Published on: {{ optional($article->publishedAt)->translatedFormat('M d, Y') ?? optional($article->createdAt)->translatedFormat('M d, Y') ?? 'Tanggal tidak tersedia' }}</p>
+</div>
+</div>
+@empty
+<div class="col-span-full text-center py-8 text-text-light">
+<p>No articles found.</p>
+</div>
+@endforelse
+</div>
+
+@includeWhen($articles instanceof \Illuminate\Pagination\AbstractPaginator, 'components.pagination', ['paginator' => $articles])
+@endsection

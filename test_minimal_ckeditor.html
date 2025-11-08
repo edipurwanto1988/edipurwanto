@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal CKEditor Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js"></script>
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.css">
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-2xl font-bold mb-6">Minimal CKEditor Test</h1>
+        
+        <div class="bg-white p-6 rounded-lg shadow">
+            <h2 class="text-lg font-semibold mb-4">Debug Information:</h2>
+            <div id="debug-info" class="bg-gray-900 text-green-400 p-4 rounded font-mono text-sm mb-6"></div>
+            
+            <h2 class="text-lg font-semibold mb-4">CKEditor:</h2>
+            <div id="editor" class="min-h-[200px] border border-gray-300 rounded"></div>
+        </div>
+    </div>
+
+    <script>
+        // Debug logging function
+        function debugLog(message) {
+            const debugInfo = document.getElementById('debug-info');
+            const timestamp = new Date().toLocaleTimeString();
+            debugInfo.innerHTML += `[${timestamp}] ${message}\n`;
+            debugInfo.scrollTop = debugInfo.scrollHeight;
+            console.log(`[CKEditor Test] ${message}`);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            debugLog('=== Minimal CKEditor Test ===');
+            debugLog('DOM loaded, checking CKEditor availability...');
+            
+            if (typeof ClassicEditor !== 'undefined') {
+                debugLog('✅ ClassicEditor is available');
+                
+                ClassicEditor
+                    .create(document.querySelector('#editor'), {
+                        toolbar: [
+                            'heading', '|',
+                            'bold', 'italic', '|',
+                            'link', 'bulletedList', 'numberedList', '|',
+                            'outdent', 'indent', '|',
+                            'blockQuote', 'insertTable', '|',
+                            'undo', 'redo'
+                        ],
+                        placeholder: 'Test CKEditor with minimal configuration...'
+                    })
+                    .then(editor => {
+                        debugLog('✅ CKEditor initialized successfully');
+                        debugLog('Available plugins: ' + Object.keys(editor.plugins).join(', '));
+                        debugLog('Toolbar items: ' + editor.ui.view.toolbar.items.map(item => item.name).join(', '));
+                        
+                        // Test CodeBox integration
+                        debugLog('Testing CodeBox integration...');
+                        const script = document.createElement('script');
+                        script.src = 'public/js/ckeditor/codebox.js';
+                        script.onload = function() {
+                            debugLog('✅ CodeBox utility loaded');
+                            
+                            if (typeof window.initCodeBox === 'function') {
+                                const codeBoxUtil = window.initCodeBox(editor);
+                                if (codeBoxUtil) {
+                                    debugLog('✅ CodeBox utility initialized successfully');
+                                } else {
+                                    debugLog('❌ CodeBox utility initialization failed');
+                                }
+                            } else {
+                                debugLog('❌ CodeBox utility not available');
+                            }
+                        };
+                        script.onerror = function() {
+                            debugLog('❌ Failed to load CodeBox utility');
+                        };
+                        document.head.appendChild(script);
+                    })
+                    .catch(error => {
+                        debugLog('❌ CKEditor initialization failed: ' + error.message);
+                        debugLog('Error details: ' + error.stack);
+                    });
+            } else {
+                debugLog('❌ ClassicEditor is not available');
+                debugLog('Possible causes:');
+                debugLog('- CDN failed to load');
+                debugLog('- Network connectivity issues');
+                debugLog('- JavaScript errors');
+            }
+        });
+    </script>
+</body>
+</html>

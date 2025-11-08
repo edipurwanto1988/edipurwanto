@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CKEditor 5 Integration Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/40.2.0/classic/ckeditor.js"></script>
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/40.2.0/classic/ckeditor.css">
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-2xl font-bold mb-6">CKEditor 5 CodeBox Plugin Test</h1>
+        
+        <div class="bg-white p-6 rounded-lg shadow">
+            <h2 class="text-lg font-semibold mb-4">Debug Information:</h2>
+            <div id="debug-info" class="bg-gray-900 text-green-400 p-4 rounded font-mono text-sm mb-6"></div>
+            
+            <h2 class="text-lg font-semibold mb-4">Editor:</h2>
+            <div id="editor" class="min-h-[200px] border border-gray-300 rounded"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-php.min.js"></script>
+
+    <script>
+        // Debug logging function
+        function debugLog(message) {
+            const debugInfo = document.getElementById('debug-info');
+            const timestamp = new Date().toLocaleTimeString();
+            debugInfo.innerHTML += `[${timestamp}] ${message}\n`;
+            console.log(`[CKEditor Debug] ${message}`);
+        }
+
+        // Test 1: Check CKEditor availability
+        debugLog('Checking CKEditor availability...');
+        if (typeof ClassicEditor !== 'undefined') {
+            debugLog('✅ ClassicEditor is available');
+        } else {
+            debugLog('❌ ClassicEditor is NOT available');
+        }
+
+        // Test 2: Try to load custom plugin (this will fail)
+        debugLog('Attempting to load custom CodeBox plugin...');
+        try {
+            // This will fail because the plugin doesn't exist
+            import('/js/ckeditor/codebox.js').then(() => {
+                debugLog('✅ CodeBox plugin loaded successfully');
+            }).catch(error => {
+                debugLog(`❌ Failed to load CodeBox plugin: ${error.message}`);
+                debugLog('This is expected - plugin file does not exist');
+            });
+        } catch (error) {
+            debugLog(`❌ Import error: ${error.message}`);
+        }
+
+        // Test 3: Initialize CKEditor without custom plugin
+        debugLog('Initializing CKEditor without custom plugin...');
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                toolbar: [
+                    'heading', '|',
+                    'bold', 'italic', 'link', 'blockQuote', '|',
+                    'undo', 'redo'
+                ],
+                placeholder: 'Test editor without CodeBox plugin...'
+            })
+            .then(editor => {
+                debugLog('✅ CKEditor initialized successfully');
+                debugLog('Available plugins: ' + Object.keys(editor.plugins).join(', '));
+                
+                // Test 4: Try to add CodeBox button manually
+                debugLog('Testing manual CodeBox button creation...');
+                try {
+                    editor.ui.componentFactory.add('codeBox', locale => {
+                        debugLog('✅ CodeBox button factory created');
+                        // This would work if we had the plugin code
+                        return null;
+                    });
+                    debugLog('❌ CodeBox button creation failed - no plugin implementation');
+                } catch (error) {
+                    debugLog(`❌ CodeBox button error: ${error.message}`);
+                }
+            })
+            .catch(error => {
+                debugLog(`❌ CKEditor initialization failed: ${error.message}`);
+            });
+
+        // Test 5: Check Prism.js
+        debugLog('Checking Prism.js availability...');
+        if (typeof Prism !== 'undefined') {
+            debugLog('✅ Prism.js is available');
+            debugLog('Available languages: ' + Object.keys(Prism.languages).join(', '));
+        } else {
+            debugLog('❌ Prism.js is NOT available');
+        }
+
+        // Test 6: Test copy functionality
+        debugLog('Testing copy button functionality...');
+        document.addEventListener('click', async (e) => {
+            if (e.target.classList.contains('copy-btn')) {
+                debugLog('Copy button clicked');
+                try {
+                    const code = e.target.closest('.code-box').querySelector('pre').innerText;
+                    await navigator.clipboard.writeText(code);
+                    debugLog('✅ Copy to clipboard successful');
+                } catch (error) {
+                    debugLog(`❌ Copy failed: ${error.message}`);
+                }
+            }
+        });
+
+        debugLog('Debug test completed. Check console for additional details.');
+    </script>
+</body>
+</html>

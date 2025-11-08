@@ -1,139 +1,70 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hasil Pencarian: "{{ $query }}" - Blog Edi Purwanto</title>
-    @php($settings = $settings ?? null)
-    <meta name="description" content="Hasil pencarian untuk '{{ $query }}' di Blog Edi Purwanto">
-    @if ($favicon = $settings?->favicon_url)
-        <link rel="icon" href="{{ $favicon }}">
-    @endif
-    @if (! empty($settings?->google_console_code))
-        <meta name="google-site-verification" content="{{ $settings->google_console_code }}">
-    @endif
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?display=swap&family=Newsreader:wght@400;500;700;800&family=Noto+Sans:wght@400;500;700;900" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#1193d4',
-                        'background-light': '#f6f7f8',
-                        'background-dark': '#101c22',
-                    },
-                    fontFamily: {
-                        display: ['Newsreader', 'serif'],
-                        sans: ['Noto Sans', 'ui-sans-serif', 'system-ui'],
-                    },
-                    borderRadius: { DEFAULT: '0.125rem', lg: '0.25rem', xl: '0.5rem', full: '0.75rem' },
-                },
-            },
-        };
-    </script>
-</head>
-<body class="bg-background-light font-sans text-zinc-900 antialiased dark:bg-background-dark dark:text-zinc-200">
-<div class="flex min-h-screen w-full flex-col">
-    <header class="sticky top-0 z-10 w-full border-b border-zinc-200/50 bg-background-light/80 backdrop-blur-sm dark:border-zinc-800/50 dark:bg-background-dark/80">
-        <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-            <div class="flex items-center gap-4">
-                <a href="{{ url('/') }}" class="flex items-center gap-2.5 text-zinc-900 dark:text-zinc-100">
-                    <svg class="h-6 w-6 text-primary" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z" fill="currentColor" />
-                    </svg>
-                    <span class="text-xl font-bold">Blog Edi Purwanto</span>
-                </a>
-            </div>
-            <nav class="hidden items-center gap-6 md:flex">
-                @forelse(($menuItems ?? collect()) as $item)
-                    <a href="{{ $item['url'] }}"
-                       @class([
-                           'text-sm font-medium transition-colors',
-                           'text-primary' => request()->fullUrlIs($item['url']),
-                           'text-zinc-600 hover:text-primary dark:text-zinc-400 dark:hover:text-primary' => ! request()->fullUrlIs($item['url']),
-                       ])
-                       @if(!empty($item['open_in_new_tab'])) target="_blank" rel="noopener" @endif>
-                        {{ $item['label'] }}
-                    </a>
-                @empty
-                    <a href="{{ url('/') }}" class="text-sm font-medium text-zinc-600 transition-colors hover:text-primary dark:text-zinc-400 dark:hover:text-primary">Home</a>
-                    <a href="{{ url('/#articles') }}" class="text-sm font-medium text-zinc-600 transition-colors hover:text-primary dark:text-zinc-400 dark:hover:text-primary">Articles</a>
-                    <a href="{{ route('categories.index') }}" class="text-sm font-medium text-primary">Kategori</a>
-                    <a href="{{ url('/#contact') }}" class="text-sm font-medium text-zinc-600 transition-colors hover:text-primary dark:text-zinc-400 dark:hover:text-primary">Kontak</a>
-                @endforelse
-            </nav>
+@extends('layouts.app')
+
+@section('content')
+<div class="flex w-full flex-col gap-6 @[520px]:flex-row @[520px]:justify-between @[520px]:items-center mb-8">
+    <div class="flex flex-col @[520px]:flex-row gap-6 items-center @[520px]:items-start text-center @[520px]:text-left">
+        <img class="rounded-full h-32 w-32 object-cover border-2 border-primary/40" data-alt="Professional headshot of Edi Purwanto" src="{{ asset('images/edipurwanto.jpeg') }}">
+        <div class="flex flex-col justify-center space-y-2">
+            <p class="text-text-dark text-3xl font-bold leading-tight tracking-[-0.015em]">Edi Purwanto</p>
+            <p class="text-primary text-lg font-medium leading-normal">Information Systems Lecturer & System Analyst</p>
+            <p class="text-text-light text-base font-normal leading-relaxed max-w-full">
+                A dedicated lecturer in Information Systems with a deep passion for teaching, technology, and innovation. Beyond academia, I work as a System Analyst at a software house, where I bridge the gap between business needs and technical solutions.
+
+This blog is where I share my experiences, research insights, and practical approaches to system design, data-driven decision making, and software development — combining the academic perspective with real-world industry practice.
+            </p>
         </div>
-    </header>
-
-    <main class="flex-1">
-        <section class="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-            <div class="mb-8">
-                <a href="{{ url('/') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline">
-                    <span class="material-symbols-outlined text-base">arrow_back</span>
-                    Kembali ke Beranda
-                </a>
-            </div>
-
-            <div class="mb-10">
-                <h1 class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-4xl">
-                    Hasil Pencarian
-                </h1>
-                <p class="mt-2 text-lg text-zinc-600 dark:text-zinc-400">
-                    Menampilkan hasil untuk: <span class="font-semibold text-primary">"{{ $query }}"</span>
-                </p>
-            </div>
-
-            <div class="space-y-10">
-                @forelse ($articles as $article)
-                    <article class="group grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
-                        <div class="overflow-hidden rounded-lg md:col-span-1">
-                            <div class="h-full w-full bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
-                                 style="background-image: url('{{ $article->thumbnail_thumb_url ?? $article->thumbnail_url ?? asset('images/article-placeholder.jpg') }}'); aspect-ratio: 16/9;"></div>
-                        </div>
-                        <div class="flex flex-col md:col-span-2">
-                            <h2 class="text-xl font-bold text-zinc-900 transition-colors group-hover:text-primary dark:text-zinc-100 dark:group-hover:text-primary">
-                                <a href="{{ route('articles.show', $article->slug) }}">{{ $article->title }}</a>
-                            </h2>
-                            <div class="mt-3 flex flex-wrap items-center gap-2 text-xs font-medium text-zinc-500 dark:text-zinc-500">
-                                <span>{{ optional($article->published_at)->translatedFormat('d M Y') ?? $article->created_at->translatedFormat('d M Y') }}</span>
-                                @if ($article->category)
-                                    <span class="text-zinc-400">·</span>
-                                    <a href="{{ route('categories.show', $article->category->slug) }}" class="text-primary hover:underline">
-                                        {{ $article->category->name }}
-                                    </a>
-                                @endif
-                            </div>
-                            @if ($article->excerpt)
-                                <p class="mt-3 text-sm text-zinc-600 dark:text-zinc-400">{{ $article->excerpt }}</p>
-                            @endif
-                        </div>
-                    </article>
-                @empty
-                    <div class="rounded-lg border border-dashed border-zinc-300 p-8 text-center text-zinc-500 dark:border-zinc-700 dark:text-zinc-400">
-                        <span class="material-symbols-outlined text-4xl mb-4 block">search_off</span>
-                        <h3 class="text-lg font-semibold mb-2">Tidak ada hasil ditemukan</h3>
-                        <p class="text-sm">Tidak ada artikel yang cocok dengan pencarian "{{ $query }}". Coba gunakan kata kunci lain.</p>
-                        <div class="mt-6">
-                            <a href="{{ url('/') }}" class="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-primary/90">
-                                Kembali ke Beranda
-                            </a>
-                        </div>
-                    </div>
-                @endforelse
-            </div>
-
-            @includeWhen($articles instanceof \Illuminate\Pagination\AbstractPaginator, 'components.pagination', ['paginator' => $articles])
-        </section>
-    </main>
-
-    <footer class="border-t border-zinc-200/70 bg-background-light py-8 text-center text-sm text-zinc-500 dark:border-zinc-800/70 dark:bg-background-dark dark:text-zinc-500">
-        © {{ date('Y') }} Blog Edi Purwanto | <a href="https://jasawebpekanbaru.com" target="_blank" class="text-blue-400 hover:text-blue-300 transition">Jasa Pembuatan Website Pekanbaru</a>
-    </footer>
+    </div>
 </div>
-</body>
-</html>
+
+<div class="px-4">
+    <div class="mb-10">
+        <h1 class="text-3xl font-bold tracking-tight text-text-dark sm:text-4xl">
+            Hasil Pencarian
+        </h1>
+        <p class="mt-2 text-lg text-text-light">
+            Menampilkan hasil untuk: <span class="font-semibold text-primary">"{{ $query }}"</span>
+        </p>
+    </div>
+
+    <div class="space-y-10">
+        @forelse ($articles as $article)
+            <article class="group grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
+                <div class="overflow-hidden rounded-lg md:col-span-1">
+                    <div class="h-full w-full bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
+                         style="background-image: url('{{ $article->thumbnail_thumb_url ?? $article->thumbnail_url ?? asset('images/article-placeholder.jpg') }}'); aspect-ratio: 16/9;"></div>
+                </div>
+                <div class="flex flex-col md:col-span-2">
+                    <h2 class="text-xl font-bold text-text-dark transition-colors group-hover:text-primary">
+                        <a href="{{ route('articles.show', $article->slug) }}">{{ $article->title }}</a>
+                    </h2>
+                    <div class="mt-3 flex flex-wrap items-center gap-2 text-xs font-medium text-text-light">
+                        <span>{{ optional($article->publishedAt)->translatedFormat('d M Y') ?? optional($article->createdAt)->translatedFormat('d M Y') ?? 'Tanggal tidak tersedia' }}</span>
+                        @if ($article->category)
+                            <span class="text-text-light">·</span>
+                            <a href="{{ route('categories.show', $article->category->slug) }}" class="text-primary hover:underline">
+                                {{ $article->category->name }}
+                            </a>
+                        @endif
+                    </div>
+                    @if ($article->excerpt)
+                        <p class="mt-3 text-sm text-text-light">{{ $article->excerpt }}</p>
+                    @endif
+                </div>
+            </article>
+        @empty
+            <div class="rounded-lg border border-dashed border-gray-300 p-8 text-center text-text-light">
+                <span class="material-symbols-outlined text-4xl mb-4 block">search_off</span>
+                <h3 class="text-lg font-semibold mb-2">Tidak ada hasil ditemukan</h3>
+                <p class="text-sm">Tidak ada artikel yang cocok dengan pencarian "{{ $query }}". Coba gunakan kata kunci lain.</p>
+                <div class="mt-6">
+                    <a href="{{ url('/') }}" class="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-primary/90">
+                        Kembali ke Beranda
+                    </a>
+                </div>
+            </div>
+        @endforelse
+    </div>
+
+    @includeWhen($articles instanceof \Illuminate\Pagination\AbstractPaginator, 'components.pagination', ['paginator' => $articles])
+</div>
+@endsection

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>IT Practitioner's Blog</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#4299e1", // A light blue accent
+              "background-light": "#ffffff",
+              "background-dark": "#101922", // Kept for potential future use, but design is light
+              "text-light": "#6b7280", // Light grey text
+              "text-dark": "#1f2937", // Darker text for titles/headings
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="font-display bg-background-light text-text-dark">
+<div class="relative flex min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<div class="px-4 sm:px-8 md:px-16 lg:px-24 xl:px-40 flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col w-full max-w-[960px] flex-1">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 px-4 md:px-10 py-3">
+<div class="flex items-center gap-4">
+<div class="size-5 text-primary">
+<svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M14.4 2.802c-1.2 0-2.4.402-3.4 1.201l-6.2 4.8c-.8.6-1.3 1.5-1.3 2.5v5c0 1 .5 1.9 1.3 2.5l6.2 4.8c1 .8 2.2 1.2 3.4 1.2s2.4-.4 3.4-1.2l6.2-4.8c.8-.6 1.3-1.5 1.3-2.5v-5c0-1-.5-1.9-1.3-2.5l-6.2-4.8c-1-.8-2.2-1.201-3.4-1.201zm0 1.5c.9 0 1.8.3 2.5.9l6.2 4.8c.4.3.7.8.7 1.3v5c0 .5-.3 1-.7 1.3l-6.2 4.8c-.7.6-1.6.9-2.5.9s-1.8-.3-2.5-.9l-6.2-4.8c-.4-.3-.7-.8-.7-1.3v-5c0-.5.3-1 .7-1.3l6.2-4.8c.7-.6 1.6-.9 2.5-.9zM12 11.202l-4.5 3.3V7.902l4.5 3.3z"></path>
+</svg>
+</div>
+<h2 class="text-text-dark text-lg font-bold leading-tight tracking-[-0.015em]">Alex Doe</h2>
+</div>
+<div class="hidden md:flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-9">
+<a class="text-text-light hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Blog</a>
+<a class="text-text-light hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">About</a>
+<a class="text-text-light hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Projects</a>
+<a class="text-text-light hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Contact</a>
+</div>
+</div>
+<div class="md:hidden">
+<button class="text-text-light">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</header>
+<main>
+<div class="flex p-4 md:p-8 @container my-8">
+<div class="flex w-full flex-col gap-6 @[520px]:flex-row @[520px]:justify-between @[520px]:items-center">
+<div class="flex flex-col @[520px]:flex-row gap-6 items-center @[520px]:items-start text-center @[520px]:text-left">
+<img class="rounded-full h-32 w-32 object-cover border-2 border-primary/40" data-alt="Professional headshot of a woman in a business suit, smiling." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZVzd-6FBV9hFHraD9GEMNnudBypqtzqozwcwBahMqY9qX4can38-M0YtkpJHl-aKFZF78eYtecBPUCU0-Q1GfNRLsymTSQrpXYgWrpOJqE1H7bNoFFwqzIuiwAcD_J1kIszr7P5rcTLLJTVFbmyzj42e2gx7CJLo9xJ30PLeKzyJ3uAnzLwP5NJbfTMRj9nOTBqc6EmKhuHE5bN5hShID3k7EdH6EA95gqIKTjLP54ZpNDsb52HtG1EqKIrk097VduyT49E_iSwKv"/>
+<div class="flex flex-col justify-center space-y-2">
+<p class="text-text-dark text-3xl font-bold leading-tight tracking-[-0.015em]">Alex Doe</p>
+<p class="text-primary text-lg font-medium leading-normal">Senior DevOps Engineer</p>
+<p class="text-text-light text-base font-normal leading-relaxed max-w-md">
+                                            A passionate DevOps engineer with a knack for automating infrastructure and streamlining development pipelines. This blog is where I share my journey, insights, and solutions in the world of cloud computing and automation.
+                                        </p>
+</div>
+</div>
+</div>
+</div>
+<h2 class="text-text-dark text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Latest Articles</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
+<div class="flex flex-col gap-3 pb-3 bg-white rounded-xl overflow-hidden border border-gray-200/80 hover:shadow-lg transition-shadow duration-300">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover" data-alt="Abstract gradient of blue and purple tones" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDxTiL0aSG4G_Hlk2KEafiKECJ3UYqwoOwvfCKJeXj5XTLNOr0HtHId-RImhLDOAHA3DXVVrBnMc9Hawrj_lZKX_11o9KYQGdzOt_Oe_DOoVOwNxikFgVoX_6tqz8h6MO_hchcIfpbpNoJHjAVKy21dPA-pO3_1uW3srFZPZ4pAkUINXmafa8PxgbpsHCk4P9YXoXwE0VZou60PIQu9l1SPv4C6TwIjgtLPY9-kHDkYXH1A3tCwWxwg9wFmB192a8s_g959uV4C8n31");'></div>
+<div class="p-4 flex flex-col flex-grow">
+<p class="text-text-dark text-lg font-medium leading-normal">Mastering Kubernetes: A Beginner's Guide</p>
+<p class="text-text-light text-sm font-normal leading-normal mt-1 flex-grow">
+                                        A comprehensive walkthrough of the fundamental concepts of Kubernetes and how to get your first cluster running.
+                                    </p>
+<p class="text-gray-400 text-xs font-normal leading-normal mt-3">Published on: Oct 26, 2023</p>
+</div>
+</div>
+<div class="flex flex-col gap-3 pb-3 bg-white rounded-xl overflow-hidden border border-gray-200/80 hover:shadow-lg transition-shadow duration-300">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover" data-alt="Abstract image of network lines and nodes" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA-aGd6jelUoJCjwMJPZ2mzi908eAZvDmRaaxl4Y_07xcNASyMbTSXXOe26cmF7rviJ_O0iLnzXDE3RLhhhaaovf6QDq5XnFx647TyLld6Iufa4VeJhZvdzb8TnSMm831Aspk_t0eyuUujMJzYfEvXaljnIujASlDACmkqg4y56HyVF33jwV77rtG90pFGLRTLLbIjUZQGNSrrdRB9rNTYj_pejS-n1P5xspZQtvPhQJu5ph5J15p4X45jvNEuE7eJB1ZctRAYHW4EI");'></div>
+<div class="p-4 flex flex-col flex-grow">
+<p class="text-text-dark text-lg font-medium leading-normal">The Future of CI/CD Pipelines</p>
+<p class="text-text-light text-sm font-normal leading-normal mt-1 flex-grow">
+                                        Exploring the latest trends and tools that are shaping the next generation of continuous integration and delivery.
+                                    </p>
+<p class="text-gray-400 text-xs font-normal leading-normal mt-3">Published on: Oct 15, 2023</p>
+</div>
+</div>
+<div class="flex flex-col gap-3 pb-3 bg-white rounded-xl overflow-hidden border border-gray-200/80 hover:shadow-lg transition-shadow duration-300">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover" data-alt="Server racks in a data center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDhw8QtWSne1uqyOina_TIxB4G9dlsWeutsOD8UigW6A3K8Uf2XF6JXnMWrsA2_5EKO3_8GKkPubrU3aLchp_AXCByDGsJZheimiDWt3eovX51o1UfIqMuZJIpEQryr6syeNJU5eLZE5y2oEyKwZnXeRJofK_bzwaUQzGEf6aWcdqYEq7sjNFX5hQo1CHcwH63-wg63y1nbKSK9CC0SrYv_RbYFUMdkVEP96hodvkFmkE2JRq7ErPQriDefakWqUjuNW3FrOoVV_jLW");'></div>
+<div class="p-4 flex flex-col flex-grow">
+<p class="text-text-dark text-lg font-medium leading-normal">Demystifying Serverless Architecture</p>
+<p class="text-text-light text-sm font-normal leading-normal mt-1 flex-grow">
+                                        An in-depth look at serverless computing, its benefits, drawbacks, and when you should consider using it.
+                                    </p>
+<p class="text-gray-400 text-xs font-normal leading-normal mt-3">Published on: Oct 02, 2023</p>
+</div>
+</div>
+<div class="flex flex-col gap-3 pb-3 bg-white rounded-xl overflow-hidden border border-gray-200/80 hover:shadow-lg transition-shadow duration-300">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover" data-alt="Cybersecurity concept with digital lock" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBwrvG5-HNgPpAqWYRRAPCQ-Zr4O4PSuG08ZQDlTfKHj2BJfli85d2GC8zh175C4P8xravoHICDu2QxuHrd36uhujsf5ECoHG2TkO4iC2dMNNOYPan_DrHKcJIysGhrQ5wlWT6F2zp1-Ih-_Tvm2vqmJUMsX1LKRv2tb3663sfLYv9MOYMvfNXE5p8f2WsHGylEmjc8eOxYTj6KFznvdynTOZu-h2LoJtCwMR4PTyxi5w_SeVygPRX8FSk3raqNBNyQ1s6hFjKTGnw7");'></div>
+<div class="p-4 flex flex-col flex-grow">
+<p class="text-text-dark text-lg font-medium leading-normal">Infrastructure as Code with Terraform</p>
+<p class="text-text-light text-sm font-normal leading-normal mt-1 flex-grow">
+                                        Learn how to provision and manage your cloud infrastructure using Terraform with practical examples.
+                                    </p>
+<p class="text-gray-400 text-xs font-normal leading-normal mt-3">Published on: Sep 21, 2023</p>
+</div>
+</div>
+<div class="flex flex-col gap-3 pb-3 bg-white rounded-xl overflow-hidden border border-gray-200/80 hover:shadow-lg transition-shadow duration-300">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover" data-alt="Abstract data visualization" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDjioqi8apj53KVrHRBR2MNMHxqNniO2lWEf1mSBOl0llJYmBrYAUROqj2iZ5t4SLlcASphArVUEx5DnrDI4WtrLgMJGZGORAkDTEzvODK5f9nkfrM5L_jI57rtjp_Sa7S2k3tZTBbhfwLSsUE_uku9BBe35V6wojb5usjhxhbSy9z3WO0fX49c3Ni2bbRz2rAfZyv2GNkFgNwVW6HmLlU8M3c6OeMEnIze7NM9YE5C94wiEusdFlXOrkvlaOAZGMkAHChQCnKsfw6O");'></div>
+<div class="p-4 flex flex-col flex-grow">
+<p class="text-text-dark text-lg font-medium leading-normal">A Deep Dive into Docker Networking</p>
+<p class="text-text-light text-sm font-normal leading-normal mt-1 flex-grow">
+                                        Understand the different networking modes in Docker and how to choose the right one for your application.
+                                    </p>
+<p class="text-gray-400 text-xs font-normal leading-normal mt-3">Published on: Sep 10, 2023</p>
+</div>
+</div>
+<div class="flex flex-col gap-3 pb-3 bg-white rounded-xl overflow-hidden border border-gray-200/80 hover:shadow-lg transition-shadow duration-300">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover" data-alt="Monitoring dashboard with graphs and charts" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA-HgEOCNhL_UQH5tcBeanrOVUrLlEl_YfW80-M3kviH3hnBilskXy8DBl__oLcdaZvuZ3RQQSDfbT5uI0sJi-mQTqDPTK7EScE62ztqtJxQbjzJj79ubDzIhfG2VIFdg9A5XrQZ9bEQ866YX07B8fEhIJMrI5GF40yPtezltoKqPELMsj3VeD99BlHlFa2YnLN1bljiBBAzupDrL3QJNPVwLN1vaxDBuDXidGi3NXs8rXGLKF8tWpfMzu30OL2Q6pwFZdReODMCDNQ");'></div>
+<div class="p-4 flex flex-col flex-grow">
+<p class="text-text-dark text-lg font-medium leading-normal">Monitoring with Prometheus and Grafana</p>
+<p class="text-text-light text-sm font-normal leading-normal mt-1 flex-grow">
+                                        Set up a robust monitoring stack for your applications and infrastructure using Prometheus and Grafana.
+                                    </p>
+<p class="text-gray-400 text-xs font-normal leading-normal mt-3">Published on: Aug 28, 2023</p>
+</div>
+</div>
+<div class="flex flex-col gap-3 pb-3 bg-white rounded-xl overflow-hidden border border-gray-200/80 hover:shadow-lg transition-shadow duration-300">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover" data-alt="Code on a dark screen" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB2YZa_oGvPJuMkoLFSJpmYtu6Rl9cQIr9o92GgIYqDUdSLrECezqTWMki8gb_cbYFpB6jWm6Wl8TCbTTMXmfdAdVztz6MrQ_NSE6wGD6Vq0RxmLHMVSSnJGcOkxacnzcrlXqXzg5Cv4Ku2ncqw0LyehysDqwe2AcJUV6fnqNTGr9wEVdyjgHum4WjpDYjEn7tz3kwAmjcS6akb0pg2bWi7yySW618AgmFQlbuyJynMDa7B19mEjXZcZjz6JYmUFTKs11_WV-1ToznB");'></div>
+<div class="p-4 flex flex-col flex-grow">
+<p class="text-text-dark text-lg font-medium leading-normal">Python for DevOps: Automation Scripts</p>
+<p class="text-text-light text-sm font-normal leading-normal mt-1 flex-grow">
+                                        Discover how to leverage Python to write powerful automation scripts for everyday DevOps tasks.
+                                    </p>
+<p class="text-gray-400 text-xs font-normal leading-normal mt-3">Published on: Aug 15, 2023</p>
+</div>
+</div>
+<div class="flex flex-col gap-3 pb-3 bg-white rounded-xl overflow-hidden border border-gray-200/80 hover:shadow-lg transition-shadow duration-300">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover" data-alt="Cloud computing concept illustration" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBVj5YFfUYKnBEbQUSnYFZR9jYoZAM9YHWgjAMOuJHrOcHhxyhqu69v4IFdrGWCgZnj7EZsYJdfEiBV2DE2XVLEeYl1m1ketkOoCFVRR-VifOWKkhrSpC2j0WxX84SqWa22iG56vJjzafDm8jxR7JSsFOhSOHpsZUlnpmLvgecLB6DjPL-tQJaLtSeegzZQ5zc_P1IoXo0UrxXciduDylEzVmRufiqFFVE7LLIQXNfr3Ft1HGSti0QV2R-8dUdx5ORPmb0NRyk1YAu_");'></div>
+<div class="p-4 flex flex-col flex-grow">
+<p class="text-text-dark text-lg font-medium leading-normal">Choosing the Right Cloud Provider</p>
+<p class="text-text-light text-sm font-normal leading-normal mt-1 flex-grow">
+                                        A comparison of AWS, Azure, and GCP to help you decide which cloud platform is best for your needs.
+                                    </p>
+<p class="text-gray-400 text-xs font-normal leading-normal mt-3">Published on: Aug 01, 2023</p>
+</div>
+</div>
+<div class="flex flex-col gap-3 pb-3 bg-white rounded-xl overflow-hidden border border-gray-200/80 hover:shadow-lg transition-shadow duration-300">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover" data-alt="Git branching diagram" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB4unFUSfCfVxDgpplkQ6quwliB3QeJjiizIrPtglCB5ftMFI3i0HUMG6VQGHeQDFxohnwZ6DHUl1pQpotaDfC9rYmKhzm_Mdcl9rDzbBbf0jkRJNoZ7VMumSl5k-sKms6Bd6oj6SiG4O7bngezgPKmQR6g0UOXrcyVRbUmAZbo5Tfkh6z-T9orYd6lwKs-FJt3GWnmUrvw3VZ8kaFj_HeAaZfZ4cGRN4bghZBq6ABi-VKvZkO8AQ2LdvcwSlvqxwIyvXRg-xLihArS");'></div>
+<div class="p-4 flex flex-col flex-grow">
+<p class="text-text-dark text-lg font-medium leading-normal">Git Best Practices for Teams</p>
+<p class="text-text-light text-sm font-normal leading-normal mt-1 flex-grow">
+                                        Improve your team's workflow and collaboration with these essential Git best practices and strategies.
+                                    </p>
+<p class="text-gray-400 text-xs font-normal leading-normal mt-3">Published on: Jul 20, 2023</p>
+</div>
+</div>
+</div>
+</main>
+<footer class="mt-16 border-t border-gray-200">
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+<div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
+<div class="flex items-center gap-4">
+<a class="text-gray-400 hover:text-primary transition-colors" href="#">
+<svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.286 2.863 7.913 6.837 9.163.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.03-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.378.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.338 4.695-4.566 4.942.359.308.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .267.18.577.688.48C19.137 19.913 22 16.286 22 12c0-5.523-4.477-10-10-10z" fill-rule="evenodd"></path></svg>
+<span class="sr-only">GitHub</span>
+</a>
+<a class="text-gray-400 hover:text-primary transition-colors" href="#">
+<svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path></svg>
+<span class="sr-only">LinkedIn</span>
+</a>
+</div>
+<p class="text-sm text-gray-400">
+                                    © 2024 Alex Doe. All rights reserved.
+                                </p>
+</div>
+</div>
+</footer>
+</div>
+</div>
+</div>
+</div>
+</body></html>

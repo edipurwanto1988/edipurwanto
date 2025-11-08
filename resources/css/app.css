@@ -9,3 +9,287 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+/* Enhanced Table Styling */
+.prose table {
+    @apply w-full my-6 overflow-hidden rounded-lg border border-gray-200 shadow-sm;
+}
+
+.prose thead {
+    @apply bg-gray-50 border-b border-gray-200;
+}
+
+.prose tbody tr {
+    @apply border-b border-gray-100 transition-colors duration-200;
+}
+
+.prose tbody tr:hover {
+    @apply bg-gray-50/50;
+}
+
+.prose th {
+    @apply px-4 py-3 text-left text-sm font-semibold text-gray-900 bg-gray-50 border-b border-gray-200 last:border-b-0;
+}
+
+.prose td {
+    @apply px-4 py-3 text-sm text-gray-700 border-b border-gray-100;
+}
+
+.prose tbody tr:last-child td {
+    @apply border-b-0;
+}
+
+.prose table caption {
+    @apply text-sm font-medium text-gray-500 mt-2 mb-1 text-left;
+}
+
+/* Zebra striping for better readability */
+.prose tbody tr:nth-child(even) {
+    @apply bg-gray-50/30;
+}
+
+.prose tbody tr:nth-child(even):hover {
+    @apply bg-gray-50/70;
+}
+
+/* Responsive table scrolling */
+.prose table {
+    @apply block overflow-x-auto;
+}
+
+.prose table::-webkit-scrollbar {
+    height: 8px;
+}
+
+.prose table::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+}
+
+.prose table::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+.prose table::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Print styles for tables */
+@media print {
+    .prose table {
+        @apply block overflow-visible;
+        page-break-inside: avoid;
+    }
+    
+    .prose thead {
+        @apply bg-gray-100;
+    }
+    
+    .prose tbody tr {
+        @apply border-b border-gray-300;
+    }
+    
+    .prose tbody tr:hover {
+        @apply bg-white;
+    }
+    
+    .prose th,
+    .prose td {
+        @apply border-b border-gray-300 px-2 py-1;
+    }
+}
+
+/* Enhanced List Styling */
+.prose ul {
+    @apply list-disc space-y-2 my-4 text-gray-700;
+    padding-left: 1.25rem;
+}
+
+.prose ol {
+    @apply list-decimal space-y-2 my-4 text-gray-700;
+    padding-left: 1.25rem;
+}
+
+.prose li {
+    @apply leading-relaxed transition-colors duration-200;
+}
+
+.prose li::marker {
+    @apply text-blue-500 font-medium;
+}
+
+.prose ul li:hover,
+.prose ol li:hover {
+    @apply text-gray-900;
+}
+
+.prose ul li::marker:hover,
+.prose ol li::marker:hover {
+    @apply text-blue-600;
+}
+
+/* Nested lists styling */
+.prose ul ul,
+.prose ol ol,
+.prose ul ol,
+.prose ol ul {
+    @apply mt-2 ml-4 list-disc list-inside;
+}
+
+.prose ul ul li::marker,
+.prose ol ol li::marker,
+.prose ul ol li::marker,
+.prose ol ul li::marker {
+    @apply text-blue-400;
+}
+
+/* Print styles for lists */
+@media print {
+    .prose ul,
+    .prose ol {
+        @apply list-disc list-inside space-y-1 my-2 text-gray-800;
+    }
+    
+    .prose li::marker,
+    .prose ul ul li::marker,
+    .prose ol ol li::marker,
+    .prose ul ol li::marker,
+    .prose ol ul li::marker {
+        @apply text-gray-600;
+    }
+}
+
+/* Enhanced Article Headings Styling */
+.prose h2 {
+    @apply text-2xl font-bold text-gray-900 mb-4 mt-8 pb-2 border-l-4 border-blue-500 pl-4 relative;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.prose h2::before {
+    content: '';
+    position: absolute;
+    left: -4px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(to bottom, #3b82f6, #2563eb);
+    border-radius: 2px;
+}
+
+.prose h2:hover {
+    @apply transform translate-x-1;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.prose h3 {
+    @apply text-xl font-semibold text-gray-800 mb-4 mt-6 pb-1 border-l-2 border-blue-400 pl-3 relative;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.prose h3::before {
+    content: '';
+    position: absolute;
+    left: -2px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, #3b82f6, #2563eb);
+    border-radius: 1px;
+    opacity: 0.7;
+}
+
+.prose h3:hover {
+    @apply transform translate-x-0.5;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.prose h4 {
+    @apply text-lg font-medium text-gray-700 mb-3 mt-5 pb-1 border-l-2 border-blue-300 pl-2 relative;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.prose h4::before {
+    content: '';
+    position: absolute;
+    left: -2px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, #3b82f6, #2563eb);
+    border-radius: 1px;
+    opacity: 0.5;
+}
+
+.prose h4:hover {
+    @apply transform translate-x-0.5;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+/* Smooth scroll behavior for anchor links */
+.prose h2:target,
+.prose h3:target,
+.prose h4:target {
+    @apply ring-2 ring-blue-300 rounded-md;
+    animation: highlightSection 2s ease-in-out;
+}
+
+@keyframes highlightSection {
+    0% {
+        background-color: rgba(59, 130, 246, 0.1);
+    }
+    100% {
+        background-color: transparent;
+    }
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+    .prose h2 {
+        @apply text-xl font-bold mb-3 mt-6 pl-3;
+    }
+    
+    .prose h2::before {
+        width: 3px;
+        left: -3px;
+    }
+    
+    .prose h3 {
+        @apply text-lg mb-3 mt-5 pl-2;
+    }
+    
+    .prose h3::before {
+        width: 2px;
+        left: -2px;
+    }
+    
+    .prose h4 {
+        @apply text-base mb-2 mt-4 pl-2;
+    }
+    
+    .prose h4::before {
+        width: 1px;
+        left: -2px;
+    }
+}
+
+/* Print styles */
+@media print {
+    .prose h2 {
+        @apply text-xl font-bold mb-3 mt-6 pb-0 border-l-0 pl-0;
+        page-break-after: avoid;
+    }
+    
+    .prose h3 {
+        @apply text-lg font-semibold mb-3 mt-5 pb-0 border-l-0 pl-0;
+        page-break-after: avoid;
+    }
+    
+    .prose h4 {
+        @apply text-base font-medium mb-2 mt-4 pb-0 border-l-0 pl-0;
+        page-break-after: avoid;
+    }
+}

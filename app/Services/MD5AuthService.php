@@ -66,6 +66,7 @@ class MD5AuthService
      */
     public function login(User $user): bool
     {
-        return Auth::login($user);
+        Auth::login($user);
+        return true;
     }
 }

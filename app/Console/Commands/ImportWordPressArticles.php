@@ -287,9 +287,7 @@ class ImportWordPressArticles extends Command
         if (! $relativePath) {
             return [
                 [
-                    'thumbnail_path' => null,
-                    'thumbnail_url' => null,
-                    'thumbnail_thumb_path' => null,
+                    'image_url' => null,
                 ],
                 false,
             ];
@@ -301,9 +299,7 @@ class ImportWordPressArticles extends Command
             $this->warn("Missing media file for post ID {$post->ID}: {$relativePath}");
             return [
                 [
-                    'thumbnail_path' => null,
-                    'thumbnail_url' => null,
-                    'thumbnail_thumb_path' => null,
+                    'image_url' => null,
                 ],
                 true,
             ];
@@ -317,9 +313,7 @@ class ImportWordPressArticles extends Command
 
         return [
             [
-                'thumbnail_path' => $targetFile,
-                'thumbnail_url' => $targetFile,
-                'thumbnail_thumb_path' => null,
+                'image_url' => $targetFile,
             ],
             false,
         ];

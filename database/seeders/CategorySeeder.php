@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class CategorySeeder extends Seeder
 {
@@ -50,17 +51,17 @@ class CategorySeeder extends Seeder
             ],
         ];
 
-        $timestamped = array_map(function (array $category) {
-            return $category + [
-                'created_at' => now(),
-                'updated_at' => now(),
-            ];
-        }, $categories);
-
-        Category::query()->upsert(
-            $timestamped,
-            ['slug'],
-            ['name', 'description', 'updated_at']
-        );
+        foreach ($categories as $category) {
+            Category::query()->updateOrCreate(
+                ['slug' => $category['slug']],
+                [
+                    'id' => (string) Str::uuid(),
+                    'name' => $category['name'],
+                    'description' => $category['description'],
+                    'createdAt' => now(),
+                    'updatedAt' => now(),
+                ]
+            );
+        }
     }
 }
