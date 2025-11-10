@@ -57,11 +57,19 @@ class ViteFallback
             'preloadAssets' => function () {
                 return [];
             },
-            'toHtml' => function () {
-                return '';
+            'toHtml' => function () use ($urls) {
+                $html = '';
+                foreach ($urls as $path => $url) {
+                    if (str_ends_with($path, '.css')) {
+                        $html .= '<link rel="stylesheet" href="' . $url . '">';
+                    } elseif (str_ends_with($path, '.js')) {
+                        $html .= '<script src="' . $url . '"></script>';
+                    }
+                }
+                return $html;
             },
-            '__toString' => function () {
-                return '';
+            '__toString' => function () use ($urls) {
+                return $this->toHtml();
             },
         ];
     }
@@ -77,6 +85,36 @@ class ViteFallback
         } catch (ViteManifestNotFoundException $e) {
             return false;
         }
+    }
+
+    /**
+     * Create a new ViteFallback instance
+     */
+    public static function make()
+    {
+        return new self();
+    }
+
+    /**
+     * Handle dynamic method calls to the fallback object
+     */
+    public function __call($method, $parameters)
+    {
+        if ($method === 'withEntryPoints') {
+            return self::withFallback($parameters[0] ?? ['resources/css/app.css', 'resources/js/app.js']);
+        }
+        
+        if ($method === 'toHtml') {
+            try {
+                // Try to use Vite normally
+                return Vite::withEntryPoints(['resources/css/app.css', 'resources/js/app.js'])->toHtml();
+            } catch (ViteManifestNotFoundException $e) {
+                // Return empty string as fallback
+                return '';
+            }
+        }
+        
+        return $this;
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Blade;
 use App\Support\ViteFallback;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Vite;
+use Illuminate\Support\HtmlString;
 
 class ViteDirective
 {
@@ -16,11 +17,10 @@ class ViteDirective
         Blade::directive('vite', function ($expression) {
             // Try normal Vite first
             try {
-                $vite = Vite::withEntryPoints(['resources/js/app.js']);
-                return "<?php echo {$vite}->{$expression}; ?>";
+                return "<?php echo \\App\\Support\\ViteFallback::withFallback([{$expression}])->toHtml(); ?>";
             } catch (\Exception $e) {
                 // Fallback to our custom solution
-                return "<?php echo \\App\\Support\\ViteFallback::withFallback({$expression})->toHtml(); ?>";
+                return "<?php echo \\App\\Support\\ViteFallback::withFallback([{$expression}])->toHtml(); ?>";
             }
         });
     }

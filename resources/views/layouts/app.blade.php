@@ -4,12 +4,13 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>{{ $pageTitle ?? 'Edi purwanto\'s Blog' }}</title>
+<!-- TODO: For production, install Tailwind CSS as a PostCSS plugin or use the Tailwind CLI -->
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
-@vite(['resources/css/app.css', 'resources/js/app.js'])
+@vite('resources/js/app.js')
 <script id="tailwind-config">
       tailwind.config = {
         darkMode: "class",
@@ -406,13 +407,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-html.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markdown.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-xml.min.js"></script>
 
 <!-- Copy button functionality for both CodeBox and TinyMCE -->
 <script>
@@ -584,6 +582,83 @@ window.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         addCopyButtonsToCodeBlocks();
     }, 1000);
+
+    // Define the missing addCopyButtonsToCodeBlocks function
+    function addCopyButtonsToCodeBlocks() {
+        console.log('[CodeBlocks] Adding copy buttons to code blocks');
+        
+        const codeBlocks = document.querySelectorAll('pre[class*="language-"], .prose pre');
+        codeBlocks.forEach((codeBlock) => {
+            // Skip if already has copy button
+            if (codeBlock.querySelector('.copy-button-container')) {
+                return;
+            }
+            
+            // Create copy button container
+            const copyContainer = document.createElement('div');
+            copyContainer.className = 'copy-button-container';
+            copyContainer.style.cssText = `
+                position: absolute;
+                top: 8px;
+                right: 8px;
+                z-index: 10;
+            `;
+            
+            // Create copy button
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'copy-btn';
+            copyBtn.innerHTML = '📋';
+            copyBtn.title = 'Salin kode';
+            copyBtn.style.cssText = `
+                background: rgba(0, 0, 0, 0.7);
+                color: #fff;
+                border: 1px solid #555;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 12px;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                opacity: 0;
+            `;
+            
+            // Add hover effects
+            copyBtn.addEventListener('mouseenter', () => {
+                copyBtn.style.opacity = '1';
+                copyBtn.style.background = 'rgba(0, 123, 255, 0.8)';
+            });
+            
+            copyBtn.addEventListener('mouseleave', () => {
+                copyBtn.style.opacity = '0';
+                copyBtn.style.background = 'rgba(0, 0, 0, 0.7)';
+            });
+            
+            // Add click handler
+            copyBtn.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                try {
+                    const code = codeBlock.textContent || codeBlock.innerText;
+                    await navigator.clipboard.writeText(code);
+                    showToast('✅ Kode berhasil disalin!');
+                    console.log('[Copy] Code copied successfully');
+                } catch (error) {
+                    console.error('[Copy] Failed to copy code:', error);
+                    showToast('❌ Gagal menyalin kode. Silakan coba lagi.', 'error');
+                }
+            });
+            
+            copyContainer.appendChild(copyBtn);
+            
+            // Make code block relative positioned
+            if (codeBlock.style.position !== 'relative') {
+                codeBlock.style.position = 'relative';
+            }
+            
+            // Add copy button to code block
+            codeBlock.appendChild(copyContainer);
+            
+            console.log('[CodeBlocks] Copy button added to code block');
+        });
+    }
 });
 
 // Re-initialize Prism.js when content changes (for dynamic content)
