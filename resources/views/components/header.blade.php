@@ -64,18 +64,28 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('[Mobile Menu] DOM loaded, checking elements...');
+    
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
     
+    console.log('[Mobile Menu] Button found:', mobileMenuButton !== null);
+    console.log('[Mobile Menu] Menu found:', mobileMenu !== null);
+    
     if (mobileMenuButton && mobileMenu) {
+        console.log('[Mobile Menu] Setting up event listeners...');
+        
         mobileMenuButton.addEventListener('click', function(e) {
+            console.log('[Mobile Menu] Button clicked, toggling menu...');
             e.stopPropagation();
             mobileMenu.classList.toggle('hidden');
+            console.log('[Mobile Menu] Menu hidden class:', mobileMenu.classList.contains('hidden'));
         });
         
         // Close mobile menu when clicking outside
         document.addEventListener('click', function(event) {
             if (!mobileMenuButton.contains(event.target) && !mobileMenu.contains(event.target)) {
+                console.log('[Mobile Menu] Clicked outside, closing menu...');
                 mobileMenu.classList.add('hidden');
             }
         });
@@ -84,6 +94,8 @@ document.addEventListener('DOMContentLoaded', function() {
         mobileMenu.addEventListener('click', function(e) {
             e.stopPropagation();
         });
+    } else {
+        console.log('[Mobile Menu] ERROR: Button or menu element not found!');
     }
 });
 </script>
