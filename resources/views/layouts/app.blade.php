@@ -389,127 +389,249 @@
 <style>
 /* Table of Content Styling */
 .prose .article-toc {
-    @apply bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 p-6 mb-8;
+    background-color: #ECFDF5;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border: 1px solid #A7F3D0;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
 }
 
 .prose .article-toc h2 {
-    @apply text-sm font-bold uppercase tracking-wide text-primary mb-4 border-b border-gray-200 dark:border-gray-700 pb-2;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #065F46;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #A7F3D0;
+    padding-bottom: 0.5rem;
 }
 
 .prose .article-toc ul {
-    @apply space-y-2 text-sm;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.875rem;
 }
 
 .prose .article-toc li {
-    @apply relative pl-4 border-l-2 border-gray-200 dark:border-gray-600 hover:border-primary transition-colors duration-200;
+    position: relative;
+    padding-left: 1rem;
+    border-left: 2px solid #A7F3D0;
+    transition: border-color 0.2s ease-in-out;
+}
+
+.prose .article-toc li:hover {
+    border-color: #065F46;
 }
 
 .prose .article-toc li::before {
     content: '';
-    @apply absolute left-[-6px] top-4 w-2 h-2 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200;
+    position: absolute;
+    left: -0.375rem;
+    top: 1rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: #065F46;
+    border-radius: 9999px;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.prose .article-toc li:hover::before {
+    opacity: 1;
 }
 
 .prose .article-toc a {
-    @apply text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors duration-200 flex items-center gap-2;
+    color: rgb(31 41 55 / var(--tw-text-opacity, 1));
+    transition: color 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-.prose .article-toc .toc-level-2 { @apply ml-0; }
-.prose .article-toc .toc-level-3 { @apply ml-4; }
-.prose .article-toc .toc-level-4 { @apply ml-8; }
-.prose .article-toc .toc-level-5 { @apply ml-12; }
-.prose .article-toc .toc-level-6 { @apply ml-16; }
+.prose .article-toc a:hover {
+    color: #065F46;
+}
+
+.prose .article-toc .toc-level-2 {
+    margin-left: 0;
+}
+
+.prose .article-toc .toc-level-3 {
+    margin-left: 1rem;
+}
+
+.prose .article-toc .toc-level-4 {
+    margin-left: 2rem;
+}
+
+.prose .article-toc .toc-level-5 {
+    margin-left: 3rem;
+}
+
+.prose .article-toc .toc-level-6 {
+    margin-left: 4rem;
+}
 
 /* Table Styling */
 .prose table {
-    @apply w-full border-collapse rounded-lg overflow-hidden shadow-sm mb-6 bg-white dark:bg-gray-800;
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+    background-color: white;
 }
 
 .prose th {
-    @apply bg-gray-50 dark:bg-gray-700 text-left font-semibold text-gray-900 dark:text-gray-100 px-4 py-3 border-b border-gray-200 dark:border-gray-600;
+    background-color: #374151;
+    text-align: left;
+    font-weight: 600;
+    color: #FFFFFF;
+    padding: 1rem;
+    border-bottom: 1px solid #6B7280;
 }
 
 .prose td {
-    @apply px-4 py-3 border-b border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300;
+    padding: 1rem;
+    border-bottom: 1px solid #6B7280;
+    color: #111827;
 }
 
 .prose tr:last-child td {
-    @apply border-b-0;
+    border-bottom: none;
 }
 
 .prose tr:hover {
-    @apply bg-gray-50 dark:bg-gray-750 transition-colors duration-150;
+    background-color: #E5E7EB;
+    transition: background-color 0.15s ease-in-out;
 }
 
 /* Striped table rows */
 .prose tbody tr:nth-child(even) {
-    @apply bg-gray-50 dark:bg-gray-750;
+    background-color: #F3F4F6;
 }
 
 .prose tbody tr:nth-child(odd) {
-    @apply bg-white dark:bg-gray-800;
+    background-color: #F9FAFB;
 }
 
 /* UL/LI Styling */
 .prose ul {
-    @apply space-y-2 mb-4 text-gray-700 dark:text-gray-300;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    color: rgb(31 41 55 / var(--tw-text-opacity, 1));
 }
 
 .prose ol {
-    @apply space-y-2 mb-4 text-gray-700 dark:text-gray-300 pl-6;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    color: rgb(31 41 55 / var(--tw-text-opacity, 1));
+    padding-left: 1.5rem;
 }
 
 .prose li {
-    @apply relative pl-6;
+    position: relative;
+    padding-left: 1.5rem;
+    color: rgb(31 41 55 / var(--tw-text-opacity, 1));
+    margin-left: 17px;
 }
 
 .prose ul li::before {
     content: '';
-    @apply absolute left-0 top-4 w-2 h-2 bg-primary rounded-full;
+    position: absolute;
+    left: 0;
+    top: 1rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: #065F46;
+    border-radius: 9999px;
 }
 
 .prose ol li::marker {
-    @apply text-primary font-semibold;
+    color: #065F46;
+    font-weight: 600;
 }
 
 .prose ul ul,
 .prose ol ul,
 .prose ul ol,
 .prose ol ol {
-    @apply mt-2 ml-6;
+    margin-top: 0.5rem;
+    margin-left: 1.5rem;
 }
 
 .prose ul li::marker {
     content: '•';
-    @apply text-primary font-semibold mr-2;
+    color: #065F46;
+    font-weight: 600;
+    margin-right: 0.5rem;
 }
 
 .prose li p {
-    @apply mb-0;
+    margin-bottom: 0;
 }
 
 /* Heading Styling */
 .prose h1 {
-    @apply text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4 mt-8 pb-2 border-b-2 border-gray-200 dark:border-gray-700;
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #1E3A8A;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e5e7eb;
+    border-color: #374151;
 }
 
 .prose h2 {
-    @apply text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-3 mt-6 pb-1 border-b border-gray-200 dark:border-gray-700;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2563EB;
+    margin-bottom: 0.75rem;
+    margin-top: 1.5rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid #e5e7eb;
+    border-color: #374151;
 }
 
 .prose h3 {
-    @apply text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2 mt-5;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #3B82F6;
+    margin-bottom: 0.5rem;
+    margin-top: 1.25rem;
 }
 
 .prose h4 {
-    @apply text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2 mt-4;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #0E7490;
+    margin-bottom: 0.5rem;
+    margin-top: 1rem;
 }
 
 .prose h5 {
-    @apply text-base font-semibold text-gray-700 dark:text-gray-300 mb-2 mt-3;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #06B6D4;
+    margin-bottom: 0.5rem;
+    margin-top: 0.75rem;
 }
 
 .prose h6 {
-    @apply text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2 mt-3;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #22D3EE;
+    margin-bottom: 0.5rem;
+    margin-top: 0.75rem;
 }
 
 /* Heading anchor links */
@@ -519,7 +641,19 @@
 .prose h4 > a,
 .prose h5 > a,
 .prose h6 > a {
-    @apply opacity-0 hover:opacity-100 transition-opacity duration-200 ml-2 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300;
+    opacity: 0;
+    margin-left: 0.5rem;
+    color: #9ca3af;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.prose h1 > a:hover,
+.prose h2 > a:hover,
+.prose h3 > a:hover,
+.prose h4 > a:hover,
+.prose h5 > a:hover,
+.prose h6 > a:hover {
+    color: #9ca3af;
 }
 
 .prose h1:hover > a,
@@ -528,50 +662,52 @@
 .prose h4:hover > a,
 .prose h5:hover > a,
 .prose h6:hover > a {
-    @apply opacity-100;
+    opacity: 1;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .prose table {
-        @apply text-sm;
+        font-size: 0.875rem;
     }
     
     .prose th,
     .prose td {
-        @apply px-3 py-2;
+        padding: 0.75rem 0.75rem;
     }
     
     .prose h1 {
-        @apply text-2xl;
+        font-size: 1.5rem;
     }
     
     .prose h2 {
-        @apply text-xl;
+        font-size: 1.25rem;
     }
     
     .prose h3 {
-        @apply text-lg;
+        font-size: 1.125rem;
     }
     
     .prose h4 {
-        @apply text-base;
+        font-size: 1rem;
     }
 }
 
 /* Print styles */
 @media print {
     .prose .article-toc {
-        @apply bg-gray-50 border-gray-300;
+        background-color: #F9FAFB;
+        border-color: #6B7280;
     }
     
     .prose table {
-        @apply shadow-none border border-gray-300;
+        box-shadow: none;
+        border: 1px solid #6B7280;
     }
     
     .prose th,
     .prose td {
-        @apply border-gray-300;
+        border-color: #6B7280;
     }
 }
 </style>

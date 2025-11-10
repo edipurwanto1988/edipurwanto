@@ -26,21 +26,21 @@
 <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
 @forelse ($categories as $category)
 <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
-<td class="px-4 py-4">
+<td class="px-4 py-4 bg-white dark:bg-gray-900">
 <div class="font-medium text-gray-900 dark:text-white">{{ $category->name }}</div>
 @if($category->description)
 <div class="text-gray-500 text-sm mt-1">{{ Str::limit($category->description, 100) }}</div>
 @endif
 </td>
-<td class="px-4 py-4">
+<td class="px-4 py-4 bg-white dark:bg-gray-900">
 <span class="text-gray-600 dark:text-gray-400">{{ $category->slug }}</span>
 </td>
-<td class="px-4 py-4">
+<td class="px-4 py-4 bg-white dark:bg-gray-900">
 <span class="inline-flex items-center rounded-full bg-blue-100 text-blue-800 px-2.5 py-0.5 text-xs font-medium">
 {{ $category->articles_count }} articles
 </span>
 </td>
-<td class="px-4 py-4">
+<td class="px-4 py-4 bg-white dark:bg-gray-900">
 <div class="flex items-center gap-2">
 <a href="{{ route('adminku.categories.edit', $category) }}" class="text-primary hover:text-primary/80">
 <span class="material-symbols-outlined" style="font-size: 18px;">edit</span>
