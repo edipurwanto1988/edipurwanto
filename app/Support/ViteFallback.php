@@ -14,7 +14,7 @@ class ViteFallback
     {
         try {
             // Try to use Vite normally
-            return Vite::useBuild()->withEntryPoints($entrypoints);
+            return Vite::withEntryPoints($entrypoints);
         } catch (ViteManifestNotFoundException $e) {
             // Fallback to basic asset URLs when manifest is not found
             return self::generateFallbackUrls($entrypoints);
@@ -72,7 +72,7 @@ class ViteFallback
     public static function manifestExists()
     {
         try {
-            Vite::useBuild();
+            Vite::withEntryPoints(['resources/js/app.js']);
             return true;
         } catch (ViteManifestNotFoundException $e) {
             return false;

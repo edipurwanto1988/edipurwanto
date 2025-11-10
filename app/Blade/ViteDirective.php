@@ -16,7 +16,7 @@ class ViteDirective
         Blade::directive('vite', function ($expression) {
             // Try normal Vite first
             try {
-                $vite = Vite::useBuild();
+                $vite = Vite::withEntryPoints(['resources/js/app.js']);
                 return "<?php echo {$vite}->{$expression}; ?>";
             } catch (\Exception $e) {
                 // Fallback to our custom solution

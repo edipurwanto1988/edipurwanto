@@ -8,13 +8,14 @@
     <div class="hidden md:flex flex-1 justify-end items-center gap-8">
         <div class="flex items-center gap-9">
             @php
-                $menuItems = optional(App\Models\Menu::query()->where('slug', 'primary')->first())->resolved_items;
+                $primaryMenu = App\Models\Menu::query()->where('parent_id', null)->first();
+                $menuItems = App\Models\Menu::query()->where('parent_id', null)->get();
             @endphp
-            @forelse ($menuItems ?? [] as $item)
+            @forelse ($menuItems as $menuItem)
                 <a class="text-text-light hover:text-primary text-sm font-medium leading-normal transition-colors"
-                   href="{{ $item['url'] }}"
-                   @if ($item['open_in_new_tab'] ?? false) target="_blank" @endif>
-                    {{ $item['label'] }}
+                   href="{{ $menuItem->url }}"
+                   @if ($menuItem->target === '_blank') target="_blank" @endif>
+                    {{ $menuItem->name }}
                 </a>
             @empty
                 <span class="text-text-light text-sm font-medium leading-normal">No menu items configured</span>
@@ -38,13 +39,13 @@
 <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50">
     <div class="px-4 py-3 space-y-1 min-w-max">
         @php
-            $menuItems = optional(App\Models\Menu::query()->where('slug', 'primary')->first())->resolved_items;
+            $menuItems = App\Models\Menu::query()->where('parent_id', null)->get();
         @endphp
-        @forelse ($menuItems ?? [] as $item)
+        @forelse ($menuItems as $menuItem)
             <a class="block text-text-light hover:text-primary text-sm font-medium leading-normal transition-colors px-3 py-2 rounded-md hover:bg-gray-50"
-               href="{{ $item['url'] }}"
-               @if ($item['open_in_new_tab'] ?? false) target="_blank" @endif>
-                {{ $item['label'] }}
+               href="{{ $menuItem->url }}"
+               @if ($menuItem->target === '_blank') target="_blank" @endif>
+                {{ $menuItem->name }}
             </a>
         @empty
             <span class="block text-text-light text-sm font-medium leading-normal px-3 py-2">No menu items configured</span>

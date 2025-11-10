@@ -10,10 +10,9 @@ class MenuSeeder extends Seeder
     public function run(): void
     {
         Menu::query()->firstOrCreate(
-            ['slug' => 'primary'],
+            ['name' => 'Primary Menu'],
             [
-                'name' => 'Primary Menu',
-                'items' => [],
+                'parent_id' => null,
             ]
         );
     }

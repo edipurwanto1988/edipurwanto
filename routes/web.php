@@ -17,7 +17,7 @@ Route::get('/', function () {
         ->paginate(6);
 
     $settings = Setting::query()->first();
-    $menuItems = optional(Menu::query()->where('slug', 'primary')->first())->resolved_items;
+    $menuItems = Menu::query()->where('parent_id', null)->get();
 
     return view('home', [
         'articles' => $articles,
@@ -33,7 +33,7 @@ Route::get('/artikel/{slug}', function (string $slug) {
     $headings = $parsedContent['headings'];
 
     $settings = Setting::query()->first();
-    $menuItems = optional(Menu::query()->where('slug', 'primary')->first())->resolved_items;
+    $menuItems = Menu::query()->where('parent_id', null)->get();
     $metaDescription = $article->excerpt ?: Str::limit(strip_tags((string) ($article->content ?? '')), 160);
 
     return view('article', [
@@ -58,7 +58,7 @@ Route::get('/kategori', function () {
         ->get();
 
     $settings = Setting::query()->first();
-    $menuItems = optional(Menu::query()->where('slug', 'primary')->first())->resolved_items;
+    $menuItems = Menu::query()->where('parent_id', null)->get();
 
     return view('categories', [
         'categories' => $categories,
@@ -79,7 +79,7 @@ Route::get('/kategori/{slug}', function (string $slug) {
         ->paginate(8);
 
     $settings = Setting::query()->first();
-    $menuItems = optional(Menu::query()->where('slug', 'primary')->first())->resolved_items;
+    $menuItems = Menu::query()->where('parent_id', null)->get();
 
     return view('category', [
         'category' => $category,
@@ -96,7 +96,7 @@ Route::get('/pages/{slug}', function (string $slug) {
         ->firstOrFail();
 
     $settings = Setting::query()->first();
-    $menuItems = optional(Menu::query()->where('slug', 'primary')->first())->resolved_items;
+    $menuItems = Menu::query()->where('parent_id', null)->get();
 
     return view('page', [
         'page' => $page,
@@ -134,7 +134,7 @@ Route::get('/search', function () {
         ->paginate(10);
 
     $settings = Setting::query()->first();
-    $menuItems = optional(Menu::query()->where('slug', 'primary')->first())->resolved_items;
+    $menuItems = Menu::query()->where('parent_id', null)->get();
 
     return view('search', [
         'articles' => $articles,

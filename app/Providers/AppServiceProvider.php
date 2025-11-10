@@ -50,7 +50,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // Share menu items with all views
         View::composer('*', function ($view) {
-            $menuItems = optional(Menu::query()->where('slug', 'primary')->first())->resolved_items;
+            $menuItems = Menu::query()->where('parent_id', null)->get();
             $view->with('menuItems', $menuItems);
         });
     }
