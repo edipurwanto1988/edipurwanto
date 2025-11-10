@@ -106,8 +106,8 @@ Route::get('/pages/{slug}', function (string $slug) {
 })->name('pages.show');
 
 Route::get('/sitemap.xml', function () {
-    $articles = Article::query()->orderByDesc('updatedAt')->get();
-    $pages = Page::query()->where('status', 'published')->orderByDesc('updatedAt')->get();
+    $articles = Article::query()->orderByDesc('updated_at')->get();
+    $pages = Page::query()->where('status', 'published')->orderByDesc('updated_at')->get();
     $baseUrl = rtrim(config('app.url'), '/');
 
     return response()
