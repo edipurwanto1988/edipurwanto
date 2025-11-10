@@ -16,7 +16,7 @@
     @foreach ($pages ?? [] as $page)
         <url>
             <loc>{{ $baseUrl }}/pages/{{ $page->slug }}</loc>
-            <lastmod>{{ optional($page->updatedAt ?? $page->createdAt)->tz('UTC')->format('Y-m-d\TH:i:sP') }}</lastmod>
+            <lastmod>{{ optional($page->updated_at ?? $page->created_at)->tz('UTC')->format('Y-m-d\TH:i:sP') }}</lastmod>
             <changefreq>monthly</changefreq>
             <priority>0.7</priority>
         </url>
