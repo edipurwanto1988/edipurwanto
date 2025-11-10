@@ -40,6 +40,21 @@
                 </div>
 
                 <div>
+                    <label for="parent_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Parent Menu (Optional)</label>
+                    <select name="parent_id" id="parent_id"
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-800 dark:text-white">
+                        <option value="">No Parent (Top Level)</option>
+                        @foreach($menus as $menu)
+                            <option value="{{ $menu->id }}">{{ $menu->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('parent_id')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Select a parent menu to create a submenu item</p>
+                </div>
+
+                <div>
                     <label for="page_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Or Link to Page</label>
                     <select name="page_id" id="page_id"
                         class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-800 dark:text-white">

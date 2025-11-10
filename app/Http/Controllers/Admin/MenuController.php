@@ -30,6 +30,7 @@ class MenuController extends Controller
             'name' => 'required|string|max:255',
             'url' => 'nullable|string|max:255',
             'page_id' => 'nullable|exists:pages,id',
+            'parent_id' => 'nullable|exists:menus,id',
             'target' => 'required|in:_blank,_self,_parent,_top',
             'order' => 'required|integer|min:0',
             'is_active' => 'boolean',
@@ -54,6 +55,11 @@ class MenuController extends Controller
         // Set default values
         $validated['id'] = Str::uuid()->toString();
         $validated['is_active'] = $request->has('is_active') ? true : false;
+        
+        // Ensure parent_id is null if not provided
+        if (!isset($validated['parent_id'])) {
+            $validated['parent_id'] = null;
+        }
 
         Menu::create($validated);
 
@@ -73,6 +79,7 @@ class MenuController extends Controller
             'name' => 'required|string|max:255',
             'url' => 'nullable|string|max:255',
             'page_id' => 'nullable|exists:pages,id',
+            'parent_id' => 'nullable|exists:menus,id',
             'target' => 'required|in:_blank,_self,_parent,_top',
             'order' => 'required|integer|min:0',
             'is_active' => 'boolean',
@@ -98,6 +105,11 @@ class MenuController extends Controller
 
         // Set default values
         $validated['is_active'] = $request->has('is_active') ? true : false;
+        
+        // Ensure parent_id is null if not provided
+        if (!isset($validated['parent_id'])) {
+            $validated['parent_id'] = null;
+        }
 
         $menu->update($validated);
 
