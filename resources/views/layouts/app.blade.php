@@ -384,6 +384,197 @@
     background: #666;
 }
 </style>
+
+<!-- Custom Article Content Styles -->
+<style>
+/* Table of Content Styling */
+.prose .article-toc {
+    @apply bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 p-6 mb-8;
+}
+
+.prose .article-toc h2 {
+    @apply text-sm font-bold uppercase tracking-wide text-primary mb-4 border-b border-gray-200 dark:border-gray-700 pb-2;
+}
+
+.prose .article-toc ul {
+    @apply space-y-2 text-sm;
+}
+
+.prose .article-toc li {
+    @apply relative pl-4 border-l-2 border-gray-200 dark:border-gray-600 hover:border-primary transition-colors duration-200;
+}
+
+.prose .article-toc li::before {
+    content: '';
+    @apply absolute left-[-6px] top-4 w-2 h-2 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200;
+}
+
+.prose .article-toc a {
+    @apply text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors duration-200 flex items-center gap-2;
+}
+
+.prose .article-toc .toc-level-2 { @apply ml-0; }
+.prose .article-toc .toc-level-3 { @apply ml-4; }
+.prose .article-toc .toc-level-4 { @apply ml-8; }
+.prose .article-toc .toc-level-5 { @apply ml-12; }
+.prose .article-toc .toc-level-6 { @apply ml-16; }
+
+/* Table Styling */
+.prose table {
+    @apply w-full border-collapse rounded-lg overflow-hidden shadow-sm mb-6 bg-white dark:bg-gray-800;
+}
+
+.prose th {
+    @apply bg-gray-50 dark:bg-gray-700 text-left font-semibold text-gray-900 dark:text-gray-100 px-4 py-3 border-b border-gray-200 dark:border-gray-600;
+}
+
+.prose td {
+    @apply px-4 py-3 border-b border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300;
+}
+
+.prose tr:last-child td {
+    @apply border-b-0;
+}
+
+.prose tr:hover {
+    @apply bg-gray-50 dark:bg-gray-750 transition-colors duration-150;
+}
+
+/* Striped table rows */
+.prose tbody tr:nth-child(even) {
+    @apply bg-gray-50 dark:bg-gray-750;
+}
+
+.prose tbody tr:nth-child(odd) {
+    @apply bg-white dark:bg-gray-800;
+}
+
+/* UL/LI Styling */
+.prose ul {
+    @apply space-y-2 mb-4 text-gray-700 dark:text-gray-300;
+}
+
+.prose ol {
+    @apply space-y-2 mb-4 text-gray-700 dark:text-gray-300 pl-6;
+}
+
+.prose li {
+    @apply relative pl-6;
+}
+
+.prose ul li::before {
+    content: '';
+    @apply absolute left-0 top-4 w-2 h-2 bg-primary rounded-full;
+}
+
+.prose ol li::marker {
+    @apply text-primary font-semibold;
+}
+
+.prose ul ul,
+.prose ol ul,
+.prose ul ol,
+.prose ol ol {
+    @apply mt-2 ml-6;
+}
+
+.prose ul li::marker {
+    content: '•';
+    @apply text-primary font-semibold mr-2;
+}
+
+.prose li p {
+    @apply mb-0;
+}
+
+/* Heading Styling */
+.prose h1 {
+    @apply text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4 mt-8 pb-2 border-b-2 border-gray-200 dark:border-gray-700;
+}
+
+.prose h2 {
+    @apply text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-3 mt-6 pb-1 border-b border-gray-200 dark:border-gray-700;
+}
+
+.prose h3 {
+    @apply text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2 mt-5;
+}
+
+.prose h4 {
+    @apply text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2 mt-4;
+}
+
+.prose h5 {
+    @apply text-base font-semibold text-gray-700 dark:text-gray-300 mb-2 mt-3;
+}
+
+.prose h6 {
+    @apply text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2 mt-3;
+}
+
+/* Heading anchor links */
+.prose h1 > a,
+.prose h2 > a,
+.prose h3 > a,
+.prose h4 > a,
+.prose h5 > a,
+.prose h6 > a {
+    @apply opacity-0 hover:opacity-100 transition-opacity duration-200 ml-2 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300;
+}
+
+.prose h1:hover > a,
+.prose h2:hover > a,
+.prose h3:hover > a,
+.prose h4:hover > a,
+.prose h5:hover > a,
+.prose h6:hover > a {
+    @apply opacity-100;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .prose table {
+        @apply text-sm;
+    }
+    
+    .prose th,
+    .prose td {
+        @apply px-3 py-2;
+    }
+    
+    .prose h1 {
+        @apply text-2xl;
+    }
+    
+    .prose h2 {
+        @apply text-xl;
+    }
+    
+    .prose h3 {
+        @apply text-lg;
+    }
+    
+    .prose h4 {
+        @apply text-base;
+    }
+}
+
+/* Print styles */
+@media print {
+    .prose .article-toc {
+        @apply bg-gray-50 border-gray-300;
+    }
+    
+    .prose table {
+        @apply shadow-none border border-gray-300;
+    }
+    
+    .prose th,
+    .prose td {
+        @apply border-gray-300;
+    }
+}
+</style>
 </head>
 <body class="font-display bg-background-light text-text-dark">
 <div class="relative flex min-h-screen w-full flex-col group/design-root overflow-x-hidden">
