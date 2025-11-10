@@ -36,7 +36,7 @@
 </header>
 
 <!-- Mobile Menu Dropdown -->
-<div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50">
+<div id="mobile-menu" class="hidden relative md:absolute md:top-full md:left-0 md:right-0 bg-white border-t border-gray-200 shadow-lg z-50 md:z-50">
     <div class="px-4 py-3 space-y-1 min-w-max">
         @php
             $menuItems = App\Models\Menu::query()->where('parent_id', null)->get();
@@ -75,25 +75,70 @@ document.addEventListener('DOMContentLoaded', function() {
     if (mobileMenuButton && mobileMenu) {
         console.log('[Mobile Menu] Setting up event listeners...');
         
-        mobileMenuButton.addEventListener('click', function(e) {
+        // Check if event listeners already exist
+        console.log('[Mobile Menu] Existing click listeners on button:', mobileMenuButton.onclick);
+        
+        // Remove existing click listener to prevent duplicates
+        mobileMenuButton.removeEventListener('click', mobileMenuButton._clickHandler);
+        
+        // Store the handler reference for potential removal
+        mobileMenuButton._clickHandler = function(e) {
             console.log('[Mobile Menu] Button clicked, toggling menu...');
+            console.log('[Mobile Menu] Current classes:', mobileMenu.className);
+            console.log('[Mobile Menu] Current computed style:', window.getComputedStyle(mobileMenu).display);
             e.stopPropagation();
-            mobileMenu.classList.toggle('hidden');
-            console.log('[Mobile Menu] Menu hidden class:', mobileMenu.classList.contains('hidden'));
-        });
+            
+            // Use a more robust toggle approach
+            const isHidden = mobileMenu.classList.contains('hidden');
+            if (isHidden) {
+                mobileMenu.classList.remove('hidden');
+                console.log('[Mobile Menu] Menu shown');
+            } else {
+                mobileMenu.classList.add('hidden');
+                console.log('[Mobile Menu] Menu hidden');
+            }
+            
+            console.log('[Mobile Menu] Menu hidden class after toggle:', mobileMenu.classList.contains('hidden'));
+            console.log('[Mobile Menu] New classes:', mobileMenu.className);
+            console.log('[Mobile Menu] New computed style:', window.getComputedStyle(mobileMenu).display);
+        };
+        
+        // Add the click listener
+        mobileMenuButton.addEventListener('click', mobileMenuButton._clickHandler);
+        
+        // Remove existing document click listener to prevent duplicates
+        document.removeEventListener('click', document._mobileMenuOutsideClick);
         
         // Close mobile menu when clicking outside
-        document.addEventListener('click', function(event) {
-            if (!mobileMenuButton.contains(event.target) && !mobileMenu.contains(event.target)) {
+        document._mobileMenuOutsideClick = function(event) {
+            console.log('[Mobile Menu] Document click event triggered');
+            console.log('[Mobile Menu] Click target:', event.target);
+            console.log('[Mobile Menu] Is button target:', mobileMenuButton.contains(event.target));
+            console.log('[Mobile Menu] Is menu target:', mobileMenu.contains(event.target));
+            
+            // Only close menu if it's currently visible
+            const isMenuVisible = !mobileMenu.classList.contains('hidden');
+            
+            if (isMenuVisible && !mobileMenuButton.contains(event.target) && !mobileMenu.contains(event.target)) {
                 console.log('[Mobile Menu] Clicked outside, closing menu...');
                 mobileMenu.classList.add('hidden');
             }
-        });
+        };
+        
+        // Add the document click listener
+        document.addEventListener('click', document._mobileMenuOutsideClick);
+        
+        // Remove existing menu click listener to prevent duplicates
+        mobileMenu.removeEventListener('click', mobileMenu._menuClickHandler);
         
         // Prevent clicks inside mobile menu from closing it
-        mobileMenu.addEventListener('click', function(e) {
+        mobileMenu._menuClickHandler = function(e) {
+            console.log('[Mobile Menu] Menu click event, stopping propagation');
             e.stopPropagation();
-        });
+        };
+        
+        // Add the menu click listener
+        mobileMenu.addEventListener('click', mobileMenu._menuClickHandler);
     } else {
         console.log('[Mobile Menu] ERROR: Button or menu element not found!');
     }
