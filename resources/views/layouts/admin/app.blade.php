@@ -198,8 +198,15 @@ document.addEventListener('DOMContentLoaded', function() {
 </head>
 <body class="font-display bg-background-light dark:bg-background-dark">
 <div class="relative flex min-h-screen w-full">
+<!-- Mobile Menu Button -->
+<div class="md:hidden fixed top-4 left-4 z-50">
+    <button id="admin-mobile-menu-button" class="text-gray-600 dark:text-gray-400 p-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:bg-gray-50 dark:hover:bg-gray-700">
+        <span class="material-symbols-outlined text-xl">menu</span>
+    </button>
+</div>
+
 <!-- SideNavBar -->
-<aside class="sticky top-0 h-screen flex flex-col w-64 bg-white dark:bg-background-dark dark:border-r dark:border-gray-800 shadow-sm">
+<aside id="admin-sidebar" class="sticky top-0 h-screen flex flex-col w-64 bg-white dark:bg-background-dark dark:border-r dark:border-gray-800 shadow-sm transform md:transform-none transition-transform duration-300 ease-in-out -translate-x-full md:translate-x-0">
 <div class="flex h-full flex-col justify-between p-4">
 <div class="flex flex-col gap-8">
 <div class="flex items-center gap-3 px-3">
@@ -249,7 +256,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 </aside>
 <!-- Main Content Area -->
-<main class="flex-1 p-6 lg:p-10">
+<main class="flex-1 p-6 lg:p-10 md:ml-0">
 <div class="mx-auto max-w-7xl">
 @yield('content')
 </div>
@@ -509,6 +516,30 @@ if (typeof tinymce !== 'undefined') {
         });
     });
 }
+
+// Admin Mobile Menu Toggle
+document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuButton = document.getElementById('admin-mobile-menu-button');
+    const sidebar = document.getElementById('admin-sidebar');
+    
+    if (mobileMenuButton && sidebar) {
+        mobileMenuButton.addEventListener('click', function() {
+            sidebar.classList.toggle('-translate-x-full');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            if (!mobileMenuButton.contains(event.target) && !sidebar.contains(event.target)) {
+                sidebar.classList.add('-translate-x-full');
+            }
+        });
+        
+        // Prevent clicks inside sidebar from closing it
+        sidebar.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    }
+});
 </script>
 </body>
 </html>
