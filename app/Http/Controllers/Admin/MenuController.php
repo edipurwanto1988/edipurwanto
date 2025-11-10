@@ -71,7 +71,8 @@ class MenuController extends Controller
     public function edit(Menu $menu)
     {
         $pages = Page::where('status', 'published')->get();
-        return view('admin.menus.edit', compact('menu', 'pages'));
+        $menus = Menu::orderBy('order')->get();
+        return view('admin.menus.edit', compact('menu', 'pages', 'menus'));
     }
 
     public function update(Request $request, Menu $menu)
