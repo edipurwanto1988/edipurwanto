@@ -21,7 +21,8 @@ class MenuController extends Controller
     public function create()
     {
         $pages = Page::where('status', 'published')->get();
-        return view('admin.menus.create', compact('pages'));
+        $menus = Menu::orderBy('order')->get();
+        return view('admin.menus.create', compact('pages', 'menus'));
     }
 
     public function store(Request $request)
