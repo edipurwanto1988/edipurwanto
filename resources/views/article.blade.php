@@ -6,8 +6,21 @@
         ?? $article->excerpt
         ?? \Illuminate\Support\Str::limit(strip_tags((string) ($article->content ?? '')), 160);
     
+    // DEBUG: Log the raw image_url value
+    \Log::info('Article Image URL Debug', [
+        'raw_image_url' => $article->image_url,
+        'image_url_attribute' => $article->image_url,
+        'model_accessor' => $article->getImageUrlAttribute(),
+        'storage_exists' => $article->image_url ? Storage::disk('public')->exists($article->image_url) : false,
+        'final_url' => null // Will be set below
+    ]);
+    
     // Article-specific meta tags
     $articleImageUrl = $article->image_url ?? asset('images/edipurwanto.jpeg');
+    
+    // DEBUG: Log the final URL
+    \Log::info('Final Article Image URL', ['final_url' => $articleImageUrl]);
+    
     $articlePublishedDate = optional($article->publishedAt)->format('Y-m-d') ?? optional($article->createdAt)->format('Y-m-d');
     $articleModifiedDate = optional($article->updatedAt)->format('Y-m-d') ?? $articlePublishedDate;
 @endphp

@@ -51,7 +51,14 @@ class Article extends Model
         }
 
         if ($value) {
-            return Storage::disk('public')->url($value);
+            // Dynamic URL generation based on environment
+            if (app()->environment('local')) {
+                // For local development, use the configured APP_URL from .env
+                return config('app.url') . '/storage/' . $value;
+            } else {
+                // For production, use the configured APP_URL
+                return url('/storage/' . $value);
+            }
         }
 
         return null;
