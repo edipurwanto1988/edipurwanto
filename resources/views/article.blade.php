@@ -64,10 +64,6 @@
         <h1 class="text-3xl font-bold tracking-tight text-text-dark sm:text-4xl">
             {{ $article->title }}
         </h1>
-
-        @if ($article->excerpt)
-            <p class="text-base text-text-light">{{ $article->excerpt }}</p>
-        @endif
     </header>
 
     @if ($article->thumbnail_original_url ?? $article->thumbnail_url)
