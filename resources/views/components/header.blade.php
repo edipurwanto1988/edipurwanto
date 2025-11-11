@@ -8,15 +8,40 @@
     <div class="hidden md:flex flex-1 justify-end items-center gap-8">
         <div class="flex items-center gap-9">
             @php
-                $primaryMenu = App\Models\Menu::query()->where('parent_id', null)->first();
-                $menuItems = App\Models\Menu::query()->where('parent_id', null)->get();
+                $menuItems = App\Models\Menu::query()->where('parent_id', null)->where('is_active', true)->with('children')->orderBy('order')->get();
             @endphp
             @forelse ($menuItems as $menuItem)
-                <a class="text-text-light hover:text-primary text-sm font-medium leading-normal transition-colors"
-                   href="{{ $menuItem->url }}"
-                   @if ($menuItem->target === '_blank') target="_blank" @endif>
-                    {{ $menuItem->name }}
-                </a>
+                @php
+                    $children = $menuItem->children()->where('is_active', true)->orderBy('order')->get();
+                @endphp
+                @if($children->count() > 0)
+                    <!-- Parent menu with dropdown -->
+                    <div class="relative group">
+                        <button class="text-text-light hover:text-primary text-sm font-medium leading-normal transition-colors flex items-center gap-1">
+                            {{ $menuItem->name }}
+                            <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <!-- Dropdown submenu -->
+                        <div class="absolute top-full left-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                            @foreach($children as $child)
+                                <a href="{{ $child->url }}"
+                                   @if ($child->target === '_blank') target="_blank" @endif
+                                   class="block px-4 py-2 text-sm text-text-light hover:text-primary hover:bg-gray-50 transition-colors first:rounded-t-lg last:rounded-b-lg">
+                                    {{ $child->name }}
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                @else
+                    <!-- Regular menu item without children -->
+                    <a class="text-text-light hover:text-primary text-sm font-medium leading-normal transition-colors"
+                       href="{{ $menuItem->url }}"
+                       @if ($menuItem->target === '_blank') target="_blank" @endif>
+                        {{ $menuItem->name }}
+                    </a>
+                @endif
             @empty
                 <span class="text-text-light text-sm font-medium leading-normal">No menu items configured</span>
             @endforelse
@@ -39,14 +64,36 @@
 <div id="mobile-menu" class="hidden relative md:absolute md:top-full md:left-0 md:right-0 bg-white border-t border-gray-200 shadow-lg z-50 md:z-50">
     <div class="px-4 py-3 space-y-1 min-w-max">
         @php
-            $menuItems = App\Models\Menu::query()->where('parent_id', null)->get();
+            $menuItems = App\Models\Menu::query()->where('parent_id', null)->where('is_active', true)->with('children')->orderBy('order')->get();
         @endphp
         @forelse ($menuItems as $menuItem)
-            <a class="block text-text-light hover:text-primary text-sm font-medium leading-normal transition-colors px-3 py-2 rounded-md hover:bg-gray-50"
-               href="{{ $menuItem->url }}"
-               @if ($menuItem->target === '_blank') target="_blank" @endif>
-                {{ $menuItem->name }}
-            </a>
+            @php
+                $children = $menuItem->children()->where('is_active', true)->orderBy('order')->get();
+            @endphp
+            @if($children->count() > 0)
+                <!-- Parent menu with mobile submenu -->
+                <div>
+                    <div class="block text-text-light text-sm font-medium leading-normal transition-colors px-3 py-2 rounded-md hover:bg-gray-50 font-semibold">
+                        {{ $menuItem->name }}
+                    </div>
+                    <div class="ml-4 space-y-1">
+                        @foreach($children as $child)
+                            <a href="{{ $child->url }}"
+                               @if ($child->target === '_blank') target="_blank" @endif
+                               class="block text-text-light hover:text-primary text-sm font-medium leading-normal transition-colors px-3 py-2 rounded-md hover:bg-gray-50">
+                                {{ $child->name }}
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+            @else
+                <!-- Regular menu item without children -->
+                <a class="block text-text-light hover:text-primary text-sm font-medium leading-normal transition-colors px-3 py-2 rounded-md hover:bg-gray-50"
+                   href="{{ $menuItem->url }}"
+                   @if ($menuItem->target === '_blank') target="_blank" @endif>
+                    {{ $menuItem->name }}
+                </a>
+            @endif
         @empty
             <span class="block text-text-light text-sm font-medium leading-normal px-3 py-2">No menu items configured</span>
         @endforelse
