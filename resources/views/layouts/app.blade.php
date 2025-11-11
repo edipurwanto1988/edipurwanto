@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>{{ $pageTitle ?? 'Edi purwanto\'s Blog' }}</title>
+<title>{{ $pageTitle ?? 'Edi Purwanto\'s Blog' }}</title>
 <!-- TODO: For production, install Tailwind CSS as a PostCSS plugin or use the Tailwind CLI -->
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -42,7 +42,7 @@
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="{{ request()->url() }}">
-<meta property="og:title" content="{{ $pageTitle ?? 'Edi purwanto\'s Blog' }}">
+<meta property="og:title" content="{{ $pageTitle ?? 'Edi Purwanto\'s Blog' }}">
 @isset($metaDescription)
     <meta property="og:description" content="{{ $metaDescription }}">
 @else
@@ -55,7 +55,7 @@
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image">
 <meta property="twitter:url" content="{{ request()->url() }}">
-<meta property="twitter:title" content="{{ $pageTitle ?? 'Edi purwanto\'s Blog' }}">
+<meta property="twitter:title" content="{{ $pageTitle ?? 'Edi Purwanto\'s Blog' }}">
 @isset($metaDescription)
     <meta property="twitter:description" content="{{ $metaDescription }}">
 @else

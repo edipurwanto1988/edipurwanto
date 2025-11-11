@@ -3,7 +3,7 @@
         <div class="size-5 text-primary">
             <img src="{{ asset('images/icon.png') }}" alt="Icon" class="w-5 h-5 object-contain">
         </div>
-        <a href="https://edipurwanto.com" target="_self" class="text-text-dark text-lg font-bold leading-tight tracking-[-0.015em] hover:text-primary transition-colors">Edi purwanto</a>
+        <a href="https://edipurwanto.com" target="_self" class="text-text-dark text-lg font-bold leading-tight tracking-[-0.015em] hover:text-primary transition-colors">Edi Purwanto</a>
     </div>
     <div class="hidden md:flex flex-1 justify-end items-center gap-8">
         <div class="flex items-center gap-9">
