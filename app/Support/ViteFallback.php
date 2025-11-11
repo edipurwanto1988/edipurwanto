@@ -8,6 +8,23 @@ use Illuminate\Foundation\ViteManifestNotFoundException;
 class ViteFallback
 {
     /**
+     * Render Vite assets with fallback when manifest is not found
+     */
+    public static function render($entrypoints = ['resources/css/app.css', 'resources/js/app.js'])
+    {
+        try {
+            // Try to use Vite normally
+            return Vite::withEntryPoints($entrypoints)->toHtml();
+        } catch (ViteManifestNotFoundException $e) {
+            // Fallback to basic asset URLs when manifest is not found
+            return self::generateFallbackHtml($entrypoints);
+        } catch (\Exception $e) {
+            // Handle any other Vite-related errors
+            return self::generateFallbackHtml($entrypoints);
+        }
+    }
+
+    /**
      * Generate Vite assets with fallback when manifest is not found
      */
     public static function withFallback($entrypoints = ['resources/css/app.css', 'resources/js/app.js'])
@@ -18,7 +35,35 @@ class ViteFallback
         } catch (ViteManifestNotFoundException $e) {
             // Fallback to basic asset URLs when manifest is not found
             return self::generateFallbackUrls($entrypoints);
+        } catch (\Exception $e) {
+            // Handle any other Vite-related errors
+            return self::generateFallbackUrls($entrypoints);
         }
+    }
+
+    /**
+     * Generate fallback HTML when manifest is not available
+     */
+    protected static function generateFallbackHtml($entrypoints)
+    {
+        $html = '';
+        
+        foreach ($entrypoints as $entrypoint) {
+            // Try to use mix() first, then fallback to asset()
+            try {
+                $url = mix($entrypoint, 'public');
+            } catch (\Exception $e) {
+                $url = asset($entrypoint);
+            }
+            
+            if (str_ends_with($entrypoint, '.css')) {
+                $html .= '<link rel="stylesheet" href="' . $url . '">' . "\n";
+            } elseif (str_ends_with($entrypoint, '.js')) {
+                $html .= '<script src="' . $url . '"></script>' . "\n";
+            }
+        }
+        
+        return $html;
     }
 
     /**
@@ -33,9 +78,17 @@ class ViteFallback
             
             // Generate predictable filenames based on entrypoint
             if (str_ends_with($entrypoint, '.css')) {
-                $urls[$entrypoint] = mix($entrypoint, 'public');
+                try {
+                    $urls[$entrypoint] = mix($entrypoint, 'public');
+                } catch (\Exception $e) {
+                    $urls[$entrypoint] = asset($entrypoint);
+                }
             } elseif (str_ends_with($entrypoint, '.js')) {
-                $urls[$entrypoint] = mix($entrypoint, 'public');
+                try {
+                    $urls[$entrypoint] = mix($entrypoint, 'public');
+                } catch (\Exception $e) {
+                    $urls[$entrypoint] = asset($entrypoint);
+                }
             } else {
                 $urls[$entrypoint] = asset($entrypoint);
             }
@@ -109,8 +162,11 @@ class ViteFallback
                 // Try to use Vite normally
                 return Vite::withEntryPoints(['resources/css/app.css', 'resources/js/app.js'])->toHtml();
             } catch (ViteManifestNotFoundException $e) {
-                // Return empty string as fallback
-                return '';
+                // Return fallback HTML
+                return self::generateFallbackHtml(['resources/css/app.css', 'resources/js/app.js']);
+            } catch (\Exception $e) {
+                // Return fallback HTML for any other error
+                return self::generateFallbackHtml(['resources/css/app.css', 'resources/js/app.js']);
             }
         }
         

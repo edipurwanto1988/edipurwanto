@@ -14,14 +14,7 @@ class ViteDirective
      */
     public static function register()
     {
-        Blade::directive('vite', function ($expression) {
-            // Try normal Vite first
-            try {
-                return "<?php echo \\App\\Support\\ViteFallback::withFallback([{$expression}])->toHtml(); ?>";
-            } catch (\Exception $e) {
-                // Fallback to our custom solution
-                return "<?php echo \\App\\Support\\ViteFallback::withFallback([{$expression}])->toHtml(); ?>";
-            }
-        });
+        // Don't override the built-in @vite directive - just provide fallback functionality
+        // The built-in directive will work normally, and our ViteFallback class handles errors
     }
 }

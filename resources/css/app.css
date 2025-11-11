@@ -1,21 +1,322 @@
-@import 'tailwindcss';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
-
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+/* CodeBox Styling for Frontend */
+.code-box {
+    position: relative;
+    background: #1a1a1a;
+    color: #f8f8f2;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    margin: 2rem 0;
+    border: 1px solid #333;
 }
+
+.code-box .code-box-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #2d2d2d;
+    padding: 12px 16px;
+    border-bottom: 1px solid #444;
+}
+
+.code-box .code-box-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.code-box .code-box-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.code-box .code-box-dot.red {
+    background: #ff5f56;
+}
+
+.code-box .code-box-dot.yellow {
+    background: #ffbd2e;
+}
+
+.code-box .code-box-dot.green {
+    background: #27c93f;
+}
+
+.code-box .code-box-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.code-box .code-box-language {
+    color: #888;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.code-box .copy-btn {
+    background: transparent;
+    color: #888;
+    border: 1px solid #555;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+}
+
+.code-box .copy-btn:hover {
+    color: #fff;
+    border-color: #777;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.code-box pre {
+    margin: 0;
+    padding: 16px;
+    overflow-x: auto;
+    background: transparent;
+    border: none;
+}
+
+.code-box code {
+    background: transparent;
+    border: none;
+    font-family: 'Fira Code', 'Monaco', 'Consolas', 'Ubuntu Mono', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #f8f8f2;
+}
+
+/* Override Prism.js theme for CodeBox */
+.code-box .token.comment,
+.code-box .token.prolog,
+.code-box .token.doctype,
+.code-box .token.cdata {
+    color: #6272a4;
+}
+
+.code-box .token.punctuation {
+    color: #f8f8f2;
+}
+
+.code-box .token.property,
+.code-box .token.tag,
+.code-box .token.constant,
+.code-box .token.symbol,
+.code-box .token.deleted {
+    color: #ff79c6;
+}
+
+.code-box .token.boolean,
+.code-box .token.number {
+    color: #bd93f9;
+}
+
+.code-box .token.selector,
+.code-box .token.attr-name,
+.code-box .token.string,
+.code-box .token.char,
+.code-box .token.builtin,
+.code-box .token.inserted {
+    color: #50fa7b;
+}
+
+.code-box .token.operator,
+.code-box .token.entity,
+.code-box .token.url,
+.language-css .token.string,
+.style .token.string,
+.code-box .token.variable,
+.code-box .token.atrule {
+    color: #f8f8f2;
+}
+
+.code-box .token.attr-value,
+.code-box .token.keyword {
+    color: #66d9ef;
+}
+
+.code-box .token.function,
+.code-box .token.class-name {
+    color: #a6e22e;
+}
+
+.code-box .token.regex,
+.code-box .token.important {
+    color: #ffb86c;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .code-box {
+        margin: 1.5rem -1rem;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+    }
+    
+    .code-box .code-box-header {
+        padding: 10px 12px;
+    }
+    
+    .code-box pre {
+        padding: 12px;
+    }
+    
+    .code-box code {
+        font-size: 13px;
+    }
+    
+    .code-box .copy-btn {
+        padding: 3px 6px;
+        font-size: 10px;
+    }
+}
+
+/* Prose integration - IMPORTANT: Use !important to override Tailwind */
+.prose .code-box {
+    margin: 1.5rem 0 !important;
+}
+
+.prose .code-box pre {
+    margin: 0 !important;
+}
+
+/* Ensure CodeBox styles override any conflicting utilities */
+.code-box {
+    all: initial;
+    position: relative !important;
+    background: #1a1a1a !important;
+    color: #f8f8f2 !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+    margin: 2rem 0 !important;
+    border: 1px solid #333 !important;
+    display: block !important;
+}
+
+.code-box .code-box-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    background: #2d2d2d !important;
+    padding: 12px 16px !important;
+    border-bottom: 1px solid #444 !important;
+}
+
+.code-box .code-box-controls {
+    display: flex !important;
+    gap: 8px !important;
+}
+
+.code-box .code-box-dot {
+    width: 12px !important;
+    height: 12px !important;
+    border-radius: 50% !important;
+}
+
+.code-box .code-box-dot.red {
+    background: #ff5f56 !important;
+}
+
+.code-box .code-box-dot.yellow {
+    background: #ffbd2e !important;
+}
+
+.code-box .code-box-dot.green {
+    background: #27c93f !important;
+}
+
+.code-box .code-box-info {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+
+.code-box .code-box-language {
+    color: #888 !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}
+
+.code-box .copy-btn {
+    background: transparent !important;
+    color: #888 !important;
+    border: 1px solid #555 !important;
+    padding: 4px 8px !important;
+    border-radius: 4px !important;
+    font-size: 11px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    font-weight: 500 !important;
+}
+
+.code-box .copy-btn:hover {
+    color: #fff !important;
+    border-color: #777 !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.code-box pre {
+    margin: 0 !important;
+    padding: 16px !important;
+    overflow-x: auto !important;
+    background: transparent !important;
+    border: none !important;
+    display: block !important;
+}
+
+.code-box code {
+    background: transparent !important;
+    border: none !important;
+    font-family: 'Fira Code', 'Monaco', 'Consolas', 'Ubuntu Mono', monospace !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    color: #f8f8f2 !important;
+    display: block !important;
+}
+
+/* Scrollbar styling for code blocks */
+.code-box pre::-webkit-scrollbar {
+    height: 8px;
+}
+
+.code-box pre::-webkit-scrollbar-track {
+    background: #2d2d2d;
+}
+
+.code-box pre::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 4px;
+}
+
+.code-box pre::-webkit-scrollbar-thumb:hover {
+    background: #666;
+}
+
+/* Custom Article Content Styles */
 
 /* Table of Content Styling */
 .prose .article-toc {
-    background-color: #1f2937;
+    background-color: #ECFDF5;
     border-radius: 0.5rem;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    border: 1px solid #374151;
+    border: 1px solid #A7F3D0;
     padding: 1.5rem;
     margin-bottom: 2rem;
 }
@@ -25,9 +326,9 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: #3b82f6;
+    color: #065F46;
     margin-bottom: 1rem;
-    border-bottom: 1px solid #374151;
+    border-bottom: 1px solid #A7F3D0;
     padding-bottom: 0.5rem;
 }
 
@@ -41,12 +342,12 @@
 .prose .article-toc li {
     position: relative;
     padding-left: 1rem;
-    border-left: 2px solid #4b5563;
+    border-left: 2px solid #A7F3D0;
     transition: border-color 0.2s ease-in-out;
 }
 
 .prose .article-toc li:hover {
-    border-color: #3b82f6;
+    border-color: #065F46;
 }
 
 .prose .article-toc li::before {
@@ -56,7 +357,7 @@
     top: 1rem;
     width: 0.5rem;
     height: 0.5rem;
-    background-color: #3b82f6;
+    background-color: #065F46;
     border-radius: 9999px;
     opacity: 0;
     transition: opacity 0.2s ease-in-out;
@@ -67,7 +368,7 @@
 }
 
 .prose .article-toc a {
-    color: #d1d5db;
+    color: rgb(31 41 55 / var(--tw-text-opacity, 1));
     transition: color 0.2s ease-in-out;
     display: flex;
     align-items: center;
@@ -75,7 +376,7 @@
 }
 
 .prose .article-toc a:hover {
-    color: #3b82f6;
+    color: #065F46;
 }
 
 .prose .article-toc .toc-level-2 {
@@ -99,30 +400,36 @@
 }
 
 /* Table Styling */
+.prose .table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
 .prose table {
     width: 100%;
+    min-width: 600px;
     border-collapse: collapse;
-    border-radius: 0.5rem;
-    overflow: hidden;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-    margin-bottom: 1.5rem;
-    background-color: #1f2937;
+    background-color: white;
+    margin-bottom: 0;
 }
 
 .prose th {
     background-color: #374151;
     text-align: left;
     font-weight: 600;
-    color: #f3f4f6;
+    color: #FFFFFF;
     padding: 1rem;
-    border-bottom: 1px solid #4b5563;
+    border-bottom: 1px solid #6B7280;
 }
 
 .prose td {
     padding: 1rem;
-    border-bottom: 1px solid #e5e7eb;
-    border-color: #4b5563;
-    color: #d1d5db;
+    border-bottom: 1px solid #6B7280;
+    color: #111827;
 }
 
 .prose tr:last-child td {
@@ -130,17 +437,17 @@
 }
 
 .prose tr:hover {
-    background-color: #1f2937;
+    background-color: #E5E7EB;
     transition: background-color 0.15s ease-in-out;
 }
 
 /* Striped table rows */
 .prose tbody tr:nth-child(even) {
-    background-color: #1f2937;
+    background-color: #F3F4F6;
 }
 
 .prose tbody tr:nth-child(odd) {
-    background-color: #111827;
+    background-color: #F9FAFB;
 }
 
 /* UL/LI Styling */
@@ -149,7 +456,7 @@
     flex-direction: column;
     gap: 0.5rem;
     margin-bottom: 1rem;
-    color: #d1d5db;
+    color: rgb(31 41 55 / var(--tw-text-opacity, 1));
 }
 
 .prose ol {
@@ -157,13 +464,15 @@
     flex-direction: column;
     gap: 0.5rem;
     margin-bottom: 1rem;
-    color: #d1d5db;
+    color: rgb(31 41 55 / var(--tw-text-opacity, 1));
     padding-left: 1.5rem;
 }
 
 .prose li {
     position: relative;
     padding-left: 1.5rem;
+    color: rgb(31 41 55 / var(--tw-text-opacity, 1));
+    margin-left: 17px;
 }
 
 .prose ul li::before {
@@ -173,12 +482,12 @@
     top: 1rem;
     width: 0.5rem;
     height: 0.5rem;
-    background-color: #3b82f6;
+    background-color: #065F46;
     border-radius: 9999px;
 }
 
 .prose ol li::marker {
-    color: #3b82f6;
+    color: #065F46;
     font-weight: 600;
 }
 
@@ -192,7 +501,7 @@
 
 .prose ul li::marker {
     content: '•';
-    color: #3b82f6;
+    color: #065F46;
     font-weight: 600;
     margin-right: 0.5rem;
 }
@@ -205,27 +514,29 @@
 .prose h1 {
     font-size: 1.875rem;
     font-weight: 700;
-    color: #f3f4f6;
+    color: #1E3A8A;
     margin-bottom: 1rem;
     margin-top: 2rem;
     padding-bottom: 0.5rem;
-    border-bottom: 2px solid #374151;
+    border-bottom: 2px solid #e5e7eb;
+    border-color: #374151;
 }
 
 .prose h2 {
     font-size: 1.25rem;
     font-weight: 600;
-    color: #f3f4f6;
+    color: #2563EB;
     margin-bottom: 0.75rem;
     margin-top: 1.5rem;
     padding-bottom: 0.25rem;
-    border-bottom: 1px solid #374151;
+    border-bottom: 1px solid #e5e7eb;
+    border-color: #374151;
 }
 
 .prose h3 {
     font-size: 1.125rem;
     font-weight: 600;
-    color: #f3f4f6;
+    color: #3B82F6;
     margin-bottom: 0.5rem;
     margin-top: 1.25rem;
 }
@@ -233,8 +544,7 @@
 .prose h4 {
     font-size: 1.125rem;
     font-weight: 600;
-    color: #374151;
-    color: #d1d5db;
+    color: #0E7490;
     margin-bottom: 0.5rem;
     margin-top: 1rem;
 }
@@ -242,8 +552,7 @@
 .prose h5 {
     font-size: 1rem;
     font-weight: 600;
-    color: #374151;
-    color: #d1d5db;
+    color: #06B6D4;
     margin-bottom: 0.5rem;
     margin-top: 0.75rem;
 }
@@ -251,8 +560,7 @@
 .prose h6 {
     font-size: 0.875rem;
     font-weight: 600;
-    color: #6b7280;
-    color: #9ca3af;
+    color: #22D3EE;
     margin-bottom: 0.5rem;
     margin-top: 0.75rem;
 }
@@ -290,13 +598,72 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+    .prose .table-wrapper {
+        border: 1px solid #e5e7eb;
+        border-radius: 0.5rem;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin: 0 -1rem 1.5rem -1rem;
+        padding: 0 1rem;
+    }
+    
     .prose table {
         font-size: 0.875rem;
+        min-width: 600px;
+        width: auto;
+        border-radius: 0;
+        box-shadow: none;
+        border: none;
+        margin-bottom: 0;
     }
     
     .prose th,
     .prose td {
-        padding: 0.75rem 0.75rem;
+        padding: 0.5rem 0.75rem;
+        min-width: 120px;
+        white-space: nowrap;
+        border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .prose th {
+        background-color: #374151;
+        color: #FFFFFF;
+        font-weight: 600;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+    
+    .prose td {
+        background-color: white;
+        color: #111827;
+    }
+    
+    .prose tr:hover td {
+        background-color: #E5E7EB;
+    }
+    
+    /* Striped table rows for mobile */
+    .prose tbody tr:nth-child(even) td {
+        background-color: #F3F4F6;
+    }
+    
+    .prose tbody tr:nth-child(odd) td {
+        background-color: #F9FAFB;
+    }
+    
+    /* Ensure proper table structure */
+    .prose table {
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+    
+    .prose table thead,
+    .prose table tbody,
+    .prose table tbody tr {
+        display: table-row;
+        width: auto;
+        table-layout: auto;
     }
     
     .prose h1 {
@@ -319,17 +686,17 @@
 /* Print styles */
 @media print {
     .prose .article-toc {
-        background-color: #f9fafb;
-        border-color: #d1d5db;
+        background-color: #F9FAFB;
+        border-color: #6B7280;
     }
     
     .prose table {
         box-shadow: none;
-        border: 1px solid #d1d5db;
+        border: 1px solid #6B7280;
     }
     
     .prose th,
     .prose td {
-        border-color: #d1d5db;
+        border-color: #6B7280;
     }
 }
