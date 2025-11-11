@@ -669,35 +669,62 @@
 @media (max-width: 768px) {
     .prose table {
         font-size: 0.875rem;
-        display: block;
+        display: table;
+        width: 100%;
         overflow-x: auto;
-        white-space: nowrap;
         -webkit-overflow-scrolling: touch;
+        border-radius: 0.5rem;
+        border: 1px solid #e5e7eb;
     }
     
     .prose th,
     .prose td {
-        padding: 0.75rem 0.75rem;
-        min-width: 120px;
+        padding: 0.5rem 0.75rem;
+        min-width: 100px;
+        white-space: nowrap;
+        border-bottom: 1px solid #e5e7eb;
     }
     
-    /* Make table scrollable horizontally on mobile */
-    .prose table thead {
-        display: table;
-        width: 100%;
-        table-layout: fixed;
+    .prose th {
+        background-color: #374151;
+        color: #FFFFFF;
+        font-weight: 600;
+        position: sticky;
+        top: 0;
+        z-index: 10;
     }
     
-    .prose table tbody {
-        display: block;
-        max-height: 400px;
-        overflow-y: auto;
+    .prose td {
+        background-color: white;
+        color: #111827;
     }
     
+    .prose tr:hover td {
+        background-color: #E5E7EB;
+    }
+    
+    /* Striped table rows for mobile */
+    .prose tbody tr:nth-child(even) td {
+        background-color: #F3F4F6;
+    }
+    
+    .prose tbody tr:nth-child(odd) td {
+        background-color: #F9FAFB;
+    }
+    
+    /* Remove conflicting styles */
+    .prose table thead,
+    .prose table tbody,
     .prose table tbody tr {
-        display: table;
-        width: 100%;
-        table-layout: fixed;
+        display: table-row;
+        width: auto;
+        table-layout: auto;
+    }
+    
+    /* Ensure proper table structure */
+    .prose table {
+        border-collapse: collapse;
+        border-spacing: 0;
     }
 }
     
@@ -736,6 +763,9 @@
     }
 }
 </style>
+
+<!-- Google Site Verification -->
+<meta name="google-site-verification" content="KNzxadS9zi6eFbfi6NrALyhzxHkL6tSd9OTpcRQmeSs" />
 </head>
 <body class="font-display bg-background-light text-text-dark">
 <div class="relative flex min-h-screen w-full flex-col group/design-root overflow-x-hidden">
