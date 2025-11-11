@@ -45,8 +45,10 @@
                     <select name="parent_id" id="parent_id"
                         class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-800 dark:text-white">
                         <option value="">No Parent (Top Level)</option>
-                        @foreach($menus as $menu)
-                            <option value="{{ $menu->id }}" {{ old('parent_id', $menu->parent_id) == $menu->id ? 'selected' : '' }}>{{ $menu->name }}</option>
+                        @foreach($menus as $parentMenu)
+                            @if($parentMenu->id != $menu->id) <!-- Prevent self-selection -->
+                                <option value="{{ $parentMenu->id }}" {{ old('parent_id', $menu->parent_id) == $parentMenu->id ? 'selected' : '' }}>{{ $parentMenu->name }}</option>
+                            @endif
                         @endforeach
                     </select>
                     @error('parent_id')
