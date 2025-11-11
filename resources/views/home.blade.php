@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+@if(request()->get('page', 1) <= 1)
 <div class="flex p-4 md:p-8 @container my-8">
 <div class="flex w-full flex-col gap-6 @[520px]:flex-row @[520px]:justify-between @[520px]:items-center">
 <div class="flex flex-col @[520px]:flex-row gap-6 items-center @[520px]:items-start text-center @[520px]:text-left">
@@ -17,6 +18,7 @@ This blog is where I share my experiences, research insights, and practical appr
 </div>
 </div>
 </div>
+@endif
 <h2 class="text-text-dark text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Latest Articles</h2>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
 @forelse ($articles as $article)
