@@ -7,6 +7,7 @@ use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -50,7 +51,10 @@ class ArticleController extends Controller
             $validated = $this->processImageUpload($validated, $image);
         }
 
-        Article::create($validated);
+        $article = Article::create($validated);
+
+        // Clear cache for this article
+        Cache::forget('article:' . $article->slug);
 
         return redirect()->route('adminku.articles.index')
             ->with('success', 'Article created successfully.');
@@ -90,6 +94,10 @@ class ArticleController extends Controller
 
         $article->update($validated);
 
+        // Clear cache for this article (both old and new slug if changed)
+        Cache::forget('article:' . $article->getOriginal('slug'));
+        Cache::forget('article:' . $article->slug);
+
         return redirect()->route('adminku.articles.index')
             ->with('success', 'Article updated successfully.');
     }
@@ -111,6 +119,9 @@ class ArticleController extends Controller
 
     public function destroy(Article $article)
     {
+        // Clear cache for this article before deleting
+        Cache::forget('article:' . $article->slug);
+        
         $article->delete();
 
         return redirect()->route('adminku.articles.index')

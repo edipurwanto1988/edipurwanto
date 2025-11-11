@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Support\ArticleContentHelper;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 
 Route::get('/', function () {
     $articles = Article::query()
@@ -27,23 +28,27 @@ Route::get('/', function () {
 });
 
 Route::get('/artikel/{slug}', function (string $slug) {
-    $article = Article::query()->with('category')->where('slug', $slug)->firstOrFail();
-    $parsedContent = ArticleContentHelper::extractHeadings($article->content ?? '');
-    $contentHtml = $parsedContent['content'];
-    $headings = $parsedContent['headings'];
+    $cacheKey = 'article:' . $slug;
+    
+    return Cache::remember($cacheKey, now()->addHours(24), function () use ($slug) {
+        $article = Article::query()->with('category')->where('slug', $slug)->firstOrFail();
+        $parsedContent = ArticleContentHelper::extractHeadings($article->content ?? '');
+        $contentHtml = $parsedContent['content'];
+        $headings = $parsedContent['headings'];
 
-    $settings = Setting::query()->first();
-    $menuItems = Menu::query()->where('parent_id', null)->get();
-    $metaDescription = $article->excerpt ?: Str::limit(strip_tags((string) ($article->content ?? '')), 160);
+        $settings = Setting::query()->first();
+        $menuItems = Menu::query()->where('parent_id', null)->get();
+        $metaDescription = $article->excerpt ?: Str::limit(strip_tags((string) ($article->content ?? '')), 160);
 
-    return view('article', [
-        'article' => $article,
-        'contentHtml' => $contentHtml,
-        'headings' => $headings,
-        'settings' => $settings,
-        'menuItems' => $menuItems,
-        'metaDescription' => $metaDescription,
-    ]);
+        return view('article', [
+            'article' => $article,
+            'contentHtml' => $contentHtml,
+            'headings' => $headings,
+            'settings' => $settings,
+            'menuItems' => $menuItems,
+            'metaDescription' => $metaDescription,
+        ]);
+    });
 })->name('articles.show');
 
 Route::get('/kategori', function () {
