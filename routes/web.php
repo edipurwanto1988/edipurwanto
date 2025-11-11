@@ -30,7 +30,8 @@ Route::get('/', function () {
 Route::get('/artikel/{slug}', function (string $slug) {
     $cacheKey = 'article:' . $slug;
     
-    return Cache::remember($cacheKey, now()->addHours(24), function () use ($slug) {
+    // Cache only the data, not the view response
+    $cachedData = Cache::remember($cacheKey, now()->addHours(24), function () use ($slug) {
         $article = Article::query()->with('category')->where('slug', $slug)->firstOrFail();
         $parsedContent = ArticleContentHelper::extractHeadings($article->content ?? '');
         $contentHtml = $parsedContent['content'];
@@ -40,15 +41,18 @@ Route::get('/artikel/{slug}', function (string $slug) {
         $menuItems = Menu::query()->where('parent_id', null)->get();
         $metaDescription = $article->excerpt ?: Str::limit(strip_tags((string) ($article->content ?? '')), 160);
 
-        return view('article', [
+        return [
             'article' => $article,
             'contentHtml' => $contentHtml,
             'headings' => $headings,
             'settings' => $settings,
             'menuItems' => $menuItems,
             'metaDescription' => $metaDescription,
-        ]);
+        ];
     });
+
+    // Return the view with cached data
+    return view('article', $cachedData);
 })->name('articles.show');
 
 Route::get('/kategori', function () {
