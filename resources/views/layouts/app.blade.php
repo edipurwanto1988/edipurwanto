@@ -669,12 +669,37 @@
 @media (max-width: 768px) {
     .prose table {
         font-size: 0.875rem;
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
     }
     
     .prose th,
     .prose td {
         padding: 0.75rem 0.75rem;
+        min-width: 120px;
     }
+    
+    /* Make table scrollable horizontally on mobile */
+    .prose table thead {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }
+    
+    .prose table tbody {
+        display: block;
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    
+    .prose table tbody tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }
+}
     
     .prose h1 {
         font-size: 1.5rem;
