@@ -43,13 +43,6 @@
 
 @section('content')
 <article class="px-4 py-8">
-    <div class="mb-10">
-        <a href="{{ url('/') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline">
-            <span class="material-symbols-outlined text-base">arrow_back</span>
-            Kembali ke Beranda
-        </a>
-    </div>
-
     <header class="space-y-6 mb-8">
         <div class="flex flex-wrap items-center gap-3 text-xs font-medium text-text-light">
             <span>{{ optional($article->publishedAt)->translatedFormat('d M Y') ?? optional($article->createdAt)->translatedFormat('d M Y') ?? 'Tanggal tidak tersedia' }}</span>
